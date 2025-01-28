@@ -1,70 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="garmir.io_files/style.css" />
-</head>
+    <link rel="stylesheet" href="garmir.io_assets/style.css" />
+  </head>
 
-<body class="container">
+  <body class="container">
     <header class="drawer">
-        <nav class="drawer-body">
-            <a class="drawer-link active" href="#">
-                <span class="indicator"></span>
-                <span class="label">garmir.io</span>
+      <nav class="drawer-body">
+        <a class="drawer-link active" href="#">
+          <span class="indicator"></span>
+          <span class="label">garmir.io</span>
+        </a>
+
+        <ul class="drawer-list shift">
+          <li>
+            <a class="drawer-link" href="#">
+              <span class="indicator"></span>
+              <span class="label">posts</span>
             </a>
-            <div class="effects-label">/posts</div>
-            <ul class="drawer-list shift">
-                <li>
-                    <a class="drawer-link" href="community_and_tech.html"><span class="indicator"></span><span
-                            class="label">community and tech</span></a>
-                </li>
-            </ul>
+          </li>
+          <ul class="drawer-list shift">
+            <li>
+              <a
+                class="drawer-link"
+                href="garmir.io_directory/garmir.io_posts/community_and_tech.html"
+              >
+                <span class="indicator"></span>
+                <span class="label">community_and_tech</span>
+              </a>
+            </li>
+          </ul>
+          <li>
+            <a class="drawer-link" href="#">
+              <span class="indicator"></span>
+              <span class="label">projects</span>
+            </a>
+          </li>
+          <li>
+            <a class="drawer-link" href="#">
+              <span class="indicator"></span>
+              <span class="label">pictures</span>
+            </a>
+          </li>
+        </ul>
 
-            <div class="effects-label">/projects</div>
-            <ul class="drawer-list shift">
-                <li>
-                    <a class="drawer-link" href="#"><span class="indicator"></span><span class="label"></span></a>
-                </li>
-            </ul>
-
-            <div class="effects-label">/pictures</div>
-            <ul class="drawer-list shift">
-                <li>
-                    <a class="drawer-link" href="#"><span class="indicator"></span><span class="label"></span></a>
-                </li>
-            </ul>
-
-            <div class="drawer-footer">
-                <ul class="drawer-list">
-                  <li>
-                    <a class="drawer-link" href="https://github.com/garmir/garmir.github.io/commits/main/"><span class="indicator"></span><span class="label">changelog</span></a>
-                  </li>
-                  <li>
-                    <a class="drawer-link" href="https://github.com/garmir"><span class="indicator"></span><span class="label">github</span></a>
-                  </li>
-                </ul>
-              </div>
-        </nav>
+        <div class="drawer-footer">
+          <ul class="drawer-list">
+            <li>
+              <a
+                class="drawer-link"
+                href="https://github.com/garmir/garmir.github.io/commits/main/"
+              >
+                <span class="indicator"></span>
+                <span class="label">changelog</span>
+              </a>
+            </li>
+            <li>
+              <a class="drawer-link" href="https://github.com/garmir">
+                <span class="indicator"></span>
+                <span class="label">github</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </header>
-
+    <header class="drawer-mobile">
+      <a class="drawer-link active" href="#">
+        <span class="indicator"></span>
+        <span class="label">garmir.io</span>
+      </a>
+      <a class="drawer-link" href="#">
+        <span class="indicator"></span>
+        <span class="label">|</span>
+      </a>
+      <a class="drawer-link" href="garmir.io_directory/directory.html">
+        <span class="indicator"></span>
+        <span class="label">directory</span>
+      </a>
+    </header>
+    <!-- MAIN CONTENT -->
     <main class="about">
-        <aside class="wrapper-fix sketch">
-            <img src="garmir.io_files/globe.gif" alt="Animated Globe" class="globe-img" />
-        </aside>
-
-        <section class="about">
-            <p>
-                A blog, created and maintained by Ana McDougall. All posts, projects, and opinions are my own.
-            </p>
-        </section>
+      <div class="page-grid">
+        <div class="title-column"></div>
+        <div class="content-column">
+          <div class="sections-grid">
+            <section class="section">
+              <h2 class="section-title"></h2>
+              <div class="section-content">
+                <p>a blog, created and maintained by Ana McDougall.</p>
+              </div>
+            </section>
+            <section class="section">
+              <h2 class="section-title"></h2>
+              <div class="section-content">
+                <p>all posts, projects, and opinions are my own.</p>
+              </div>
+            </section>
+            <section class="section">
+              <h2 class="section-title"></h2>
+              <div class="section-content">
+                <img
+                  src="garmir.io_assets/globe.gif"
+                  alt="Animated Globe"
+                  class="globe-img"
+                />
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </main>
-
-    <footer class="footer">
-        <p>&copy; Ana McDougall 2025</p>
-    </footer>
-</body>
-
+  </body>
 </html>
