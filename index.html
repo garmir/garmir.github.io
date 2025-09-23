@@ -55,7 +55,7 @@
   <body class="container">
     <header class="drawer">
       <nav class="drawer-body">
-        <a class="drawer-link active" href="#">
+        <a class="drawer-link active" href="index.html">
           <span class="indicator"></span>
           <span class="label">garmir.io</span>
         </a>
@@ -150,11 +150,11 @@
       </nav>
     </header>
     <header class="drawer-mobile">
-      <a class="drawer-link active" href="#">
+      <a class="drawer-link active" href="index.html">
         <span class="indicator"></span>
         <span class="label">garmir.io</span>
       </a>
-      <a class="drawer-link" href="#">
+      <a class="drawer-link" href="index.html">
         <span class="indicator"></span>
         <span class="label">|</span>
       </a>
@@ -184,11 +184,14 @@
             <section class="section">
               <h2 class="section-title">explore</h2>
               <div class="section-content">
-                <img
-                  src="garmir.io_assets/globe.gif"
-                  alt="Animated Globe"
-                  class="globe-img"
-                />
+                <div id="interactive-globe" class="globe-container" style="width: 200px; height: 200px; margin: 0 auto;">
+                  <img
+                    src="garmir.io_assets/globe.gif"
+                    alt="Interactive Globe Visualization"
+                    class="globe-img"
+                  />
+                </div>
+                <script src="garmir.io_assets/globe.js"></script>
               </div>
             </section>
           </div>
