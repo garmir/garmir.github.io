@@ -1,25 +1,120 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Ana McDougall</title>
-</head>
-<body>
-    <h1>Ana McDougall</h1>
-    <p>(⌒_⌒;)</p>
+<html lang="en">
+  <head>
+    <title>(⌒_⌒;)</title>
 
-    <p>a blog, created and maintained by Ana McDougall</p>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <p><a href="posts">posts</a> | <a href="community_and_tech">community_and_tech</a> | <a href="projects">projects</a> | <a href="pictures">pictures</a></p>
+    <link rel="stylesheet" href="garmir.io_assets/style.css" />
+  </head>
 
-    <p><a href="changelog">changelog</a> | <a href="https://github.com/garmir">GitHub</a></p>
+  <body class="container">
+    <header class="drawer">
+      <nav class="drawer-body">
+        <a class="drawer-link active" href="#">
+          <span class="indicator"></span>
+          <span class="label">garmir.io</span>
+        </a>
 
-    <hr>
+        <ul class="drawer-list shift">
+          <li>
+            <a class="drawer-link" href="#">
+              <span class="indicator"></span>
+              <span class="label">posts</span>
+            </a>
+          </li>
+          <ul class="drawer-list shift">
+            <li>
+              <a
+                class="drawer-link"
+                href="garmir.io_directory/garmir.io_posts/community_and_tech.html"
+              >
+                <span class="indicator"></span>
+                <span class="label">community_and_tech</span>
+              </a>
+            </li>
+          </ul>
+          <li>
+            <a class="drawer-link" href="#">
+              <span class="indicator"></span>
+              <span class="label">projects</span>
+            </a>
+          </li>
+          <li>
+            <a class="drawer-link" href="#">
+              <span class="indicator"></span>
+              <span class="label">pictures</span>
+            </a>
+          </li>
+        </ul>
 
-    <p>passionate about building robust systems and exploring new technologies. currently focused on distributed systems, automation frameworks, and community-driven infrastructure solutions.</p>
-
-    <p>technical interests include automation and workflow optimization, distributed systems and mesh networking, privacy-preserving technologies, performance optimization and parallel processing, and community-driven infrastructure.</p>
-
-    <img src="garmir.io_assets/globe.gif" alt="animated globe" width="50" height="50">
-</body>
+        <div class="drawer-footer">
+          <ul class="drawer-list">
+            <li>
+              <a
+                class="drawer-link"
+                href="https://github.com/garmir/garmir.github.io/commits/main/"
+              >
+                <span class="indicator"></span>
+                <span class="label">changelog</span>
+              </a>
+            </li>
+            <li>
+              <a class="drawer-link" href="https://github.com/garmir">
+                <span class="indicator"></span>
+                <span class="label">github</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <header class="drawer-mobile">
+      <a class="drawer-link active" href="#">
+        <span class="indicator"></span>
+        <span class="label">garmir.io</span>
+      </a>
+      <a class="drawer-link" href="#">
+        <span class="indicator"></span>
+        <span class="label">|</span>
+      </a>
+      <a class="drawer-link" href="garmir.io_directory/directory.html">
+        <span class="indicator"></span>
+        <span class="label">directory</span>
+      </a>
+    </header>
+    <!-- MAIN CONTENT -->
+    <main class="about">
+      <div class="page-grid">
+        <div class="title-column"></div>
+        <div class="content-column">
+          <div class="sections-grid">
+            <section class="section">
+              <h2 class="section-title"></h2>
+              <div class="section-content">
+                <p>a blog, created and maintained by Ana McDougall.</p>
+              </div>
+            </section>
+            <section class="section">
+              <h2 class="section-title"></h2>
+              <div class="section-content">
+                <p>all posts, projects, and opinions are my own.</p>
+              </div>
+            </section>
+            <section class="section">
+              <h2 class="section-title"></h2>
+              <div class="section-content">
+                <img
+                  src="garmir.io_assets/globe.gif"
+                  alt="Animated Globe"
+                  class="globe-img"
+                />
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
