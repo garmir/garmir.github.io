@@ -35,7 +35,33 @@ body {
     background-color: var(--background-color);
 }
 
-/* Layout container */
+/* ascii/tui terminal styling */
+.ascii-header {
+    font-family: 'courier new', monaco, monospace;
+    font-size: var(--font-size-base);
+    color: var(--accent-color);
+    white-space: pre;
+    margin: 1rem 0;
+    line-height: 1;
+}
+
+.section-content {
+    font-size: var(--font-size-base);
+    color: var(--text-color);
+}
+
+.section-content ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.section-content li::before {
+    content: '> ';
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* layout container */
 .container {
     display: flex;
     min-height: 100vh;
