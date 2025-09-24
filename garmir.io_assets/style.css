@@ -4,11 +4,11 @@
 :root {
     --primary-color: #000000;
     --secondary-color: #333333;
-    --accent-color: #00ff00;
+    --accent-color: #cccccc;
     --background-color: #000000;
-    --border-color: #333333;
-    --text-color: #00ff00;
-    --text-muted: #888888;
+    --border-color: #666666;
+    --text-color: #ffffff;
+    --text-muted: #999999;
     --drawer-width: 280px;
     --header-height: 60px;
     --transition-speed: 0.2s;
