@@ -67,28 +67,48 @@
   <body class="container">
     <header class="drawer">
       <nav class="drawer-body">
+        <!-- ASCII Logo Header -->
+        <div class="ascii-logo">
+          <pre>
+ ██████╗  █████╗ ██████╗ ███╗   ███╗██╗██████╗
+██╔════╝ ██╔══██╗██╔══██╗████╗ ████║██║██╔══██╗
+██║  ███╗███████║██████╔╝██╔████╔██║██║██████╔╝
+██║   ██║██╔══██║██╔══██╗██║╚██╔╝██║██║██╔══██╗
+╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║██║██║  ██║
+ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═╝
+          </pre>
+        </div>
+
         <a class="drawer-link active" href="index.html">
-          <span class="indicator"></span>
-          <span class="label">garmir.io</span>
+          <span class="indicator">></span>
+          <span class="label">./home</span>
         </a>
+
+        <div class="ascii-divider">
+          <pre>
+╔═════════════════════════════════════╗
+║              [MENU]                 ║
+╠═════════════════════════════════════╣
+          </pre>
+        </div>
 
         <ul class="drawer-list shift">
           <li>
             <a class="drawer-link" href="posts.html">
-              <span class="indicator"></span>
-              <span class="label">posts</span>
+              <span class="indicator">├─</span>
+              <span class="label">./posts/</span>
             </a>
           </li>
           <li>
             <a class="drawer-link" href="projects.html">
-              <span class="indicator"></span>
-              <span class="label">projects</span>
+              <span class="indicator">├─</span>
+              <span class="label">./projects/</span>
             </a>
           </li>
           <li>
             <a class="drawer-link" href="pictures.html">
-              <span class="indicator"></span>
-              <span class="label">pictures</span>
+              <span class="indicator">└─</span>
+              <span class="label">./pictures/</span>
             </a>
           </li>
         </ul>
@@ -154,9 +174,9 @@
               <div class="section-content">
                 <p>software developer passionate about building robust systems and exploring new technologies. currently focused on distributed systems, automation frameworks, and community-driven infrastructure solutions.</p>
 
-                <!-- ASCII Globe Integration -->
-                <div class="ascii-globe">
-                  <pre class="globe-art">
+                <!-- interactive ascii globe -->
+                <div class="ascii-globe" id="interactive-globe" onclick="rotateGlobe()">
+                  <pre class="globe-art" id="globe-display">
     ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
   ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
  ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
@@ -170,7 +190,7 @@
   ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
     ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
                   </pre>
-                  <p><small>[<a href="https://github.com/garmir/globe">garmir/globe</a>] - interactive globe implementation</small></p>
+                  <p><small>[<a href="https://github.com/garmir/globe">garmir/globe</a>] - click to rotate</small></p>
                 </div>
               </div>
             </section>
@@ -219,12 +239,43 @@
       </div>
     </main>
 
-    <!-- GitHub Globe Implementation -->
+    <!-- interactive globe functionality -->
     <script>
-      // Simple globe display functionality for garmir/globe integration
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('garmir.io loaded with GitHub globe integration');
-      });
+      let globeRotation = 0;
+      const globeFrames = [
+        `    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
+ ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
+░▒▒▓▓▓███████████████▓▓▓▒▒░
+▒▒▓▓▓███████████████▓▓▓▒▒
+▒▓▓███████████████████▓▓▒
+▒▓▓███████████████████▓▓▒
+▒▒▓▓▓███████████████▓▓▓▒▒
+░▒▒▓▓▓███████████████▓▓▓▒▒░
+ ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
+  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
+    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░`,
+        `    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
+ ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
+░▒▒▓▓██████████████████▓▒▒░
+▒▒▓▓███████████████████▓▓▒
+▒▓▓████████████████████▓▓▒
+▒▓▓████████████████████▓▓▒
+▒▒▓▓██████████████████▓▓▒▒
+░▒▒▓▓██████████████████▓▒▒░
+ ░▒▒▓▓▓▓███████████▓▓▓▓▓▒▒░
+  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
+    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░`
+      ];
+
+      function rotateGlobe() {
+        globeRotation = (globeRotation + 1) % globeFrames.length;
+        document.getElementById('globe-display').textContent = globeFrames[globeRotation];
+      }
+
+      // auto-rotate every 3 seconds
+      setInterval(rotateGlobe, 3000);
     </script>
   </body>
 </html>
