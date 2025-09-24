@@ -412,3 +412,6 @@ body {
         --text-muted: #000000;
     }
 }
+/* ascii navigation styling */
+.ascii-logo { text-align: center; margin: 0 0 1rem 0; }
+.ascii-logo pre { font-family: monospace; font-size: 0.5rem; color: var(--accent-color); margin: 0; line-height: 1; }
