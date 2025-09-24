@@ -185,23 +185,16 @@
               <div class="section-content">
                 <p>software developer passionate about building robust systems and exploring new technologies. currently focused on distributed systems, automation frameworks, and community-driven infrastructure solutions.</p>
 
-                <!-- interactive ascii globe -->
-                <div class="ascii-globe" id="interactive-globe" onclick="rotateGlobe()">
-                  <pre class="globe-art" id="globe-display">
-    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
-  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
- ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
-░▒▒▓▓▓███████████████▓▓▓▒▒░
-▒▒▓▓▓███████████████▓▓▓▒▒
-▒▓▓███████████████████▓▓▒
-▒▓▓███████████████████▓▓▒
-▒▒▓▓▓███████████████▓▓▓▒▒
-░▒▒▓▓▓███████████████▓▓▓▒▒░
- ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
-  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
-    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
-                  </pre>
-                  <p><small>[<a href="https://github.com/garmir/globe">garmir/globe</a>] - click to rotate</small></p>
+                <!-- correct garmir/globe implementation -->
+                <div class="globe-display">
+                  <a href="https://github.com/garmir/globe" target="_blank" rel="noopener">
+                    <img src="https://github.com/garmir/garmir/raw/main/globe.gif"
+                         alt="garmir/globe - interactive terminal globe CLI application"
+                         class="globe-image"
+                         width="400"
+                         height="400">
+                  </a>
+                  <p><small>[<a href="https://github.com/garmir/globe">garmir/globe</a>] - rust cli application for terminal globe rendering</small></p>
                 </div>
               </div>
             </section>
@@ -250,43 +243,10 @@
       </div>
     </main>
 
-    <!-- interactive globe functionality -->
+    <!-- simple site functionality -->
     <script>
-      let globeRotation = 0;
-      const globeFrames = [
-        `    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
-  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
- ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
-░▒▒▓▓▓███████████████▓▓▓▒▒░
-▒▒▓▓▓███████████████▓▓▓▒▒
-▒▓▓███████████████████▓▓▒
-▒▓▓███████████████████▓▓▒
-▒▒▓▓▓███████████████▓▓▓▒▒
-░▒▒▓▓▓███████████████▓▓▓▒▒░
- ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
-  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
-    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░`,
-        `    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
-  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
- ░▒▒▓▓▓▓▓███████████▓▓▓▓▓▒▒░
-░▒▒▓▓██████████████████▓▒▒░
-▒▒▓▓███████████████████▓▓▒
-▒▓▓████████████████████▓▓▒
-▒▓▓████████████████████▓▓▒
-▒▒▓▓██████████████████▓▓▒▒
-░▒▒▓▓██████████████████▓▒▒░
- ░▒▒▓▓▓▓███████████▓▓▓▓▓▒▒░
-  ░░▒▒▒▒▓▓▓▓▓██████▓▓▓▓▓▒▒▒▒░░
-    ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▒▒▒▒▒░░░░░`
-      ];
-
-      function rotateGlobe() {
-        globeRotation = (globeRotation + 1) % globeFrames.length;
-        document.getElementById('globe-display').textContent = globeFrames[globeRotation];
-      }
-
-      // auto-rotate every 3 seconds
-      setInterval(rotateGlobe, 3000);
+      // terminal aesthetic with proper garmir/globe attribution
+      console.log('garmir.io loaded - visit github.com/garmir/globe for cli globe rendering');
     </script>
   </body>
 </html>
