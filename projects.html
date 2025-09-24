@@ -16,50 +16,98 @@
 </head>
 <body class="container">
     <header class="drawer">
-        <nav class="drawer-body">
-            <a class="drawer-link" href="index.html">
-                <span class="indicator"></span>
-                <span class="label">garmir.io</span>
+      <nav class="drawer-body">
+        <!-- ASCII Logo Header -->
+        <div class="ascii-logo">
+          <pre>
+ ██████╗  █████╗ ██████╗ ███╗   ███╗██╗██████╗
+██╔════╝ ██╔══██╗██╔══██╗████╗ ████║██║██╔══██╗
+██║  ███╗███████║██████╔╝██╔████╔██║██║██████╔╝
+██║   ██║██╔══██║██╔══██╗██║╚██╔╝██║██║██╔══██╗
+╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║██║██║  ██║
+ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═╝
+          </pre>
+        </div>
+
+        <div class="ascii-nav-header">
+          <pre>
+╔═══════════════════════════════════════════════════════════════════╗
+║ garmir@terminal:~$ ls -la /                                       ║
+╠═══════════════════════════════════════════════════════════════════╣
+║ drwxr-xr-x  7 garmir garmir 4096 sep 24 00:15 ./                 ║
+║ drwxr-xr-x  3 garmir garmir 4096 sep 24 00:15 ../                ║
+╚═══════════════════════════════════════════════════════════════════╝
+          </pre>
+        </div>
+
+        <a class="drawer-link" href="index.html">
+          <span class="indicator">[home]</span>
+          <span class="label">./home</span>
+        </a>
+
+        <div class="ascii-divider">
+          <pre>
+╔═════════════════════════════════════╗
+║              [MENU]                 ║
+╠═════════════════════════════════════╣
+          </pre>
+        </div>
+
+        <ul class="drawer-list shift">
+          <li>
+            <a class="drawer-link" href="posts.html">
+              <span class="indicator">├──</span>
+              <span class="label">./posts/</span>
             </a>
+          </li>
+          <li>
+            <a class="drawer-link active" href="projects.html">
+              <span class="indicator">├──</span>
+              <span class="label">./projects/</span>
+            </a>
+          </li>
+          <li>
+            <a class="drawer-link" href="pictures.html">
+              <span class="indicator">└──</span>
+              <span class="label">./pictures/</span>
+            </a>
+          </li>
+        </ul>
 
-            <ul class="drawer-list shift">
-                <li>
-                    <a class="drawer-link" href="posts.html">
-                        <span class="indicator"></span>
-                        <span class="label">posts</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="drawer-link active" href="projects.html">
-                        <span class="indicator"></span>
-                        <span class="label">projects</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="drawer-link" href="pictures.html">
-                        <span class="indicator"></span>
-                        <span class="label">pictures</span>
-                    </a>
-                </li>
-            </ul>
+        <div class="ascii-divider">
+          <pre>
+╠═══════════════════════════════════════════════════════════════════╣
+║ [system]                                                          ║
+╚═══════════════════════════════════════════════════════════════════╝
+          </pre>
+        </div>
 
-            <div class="drawer-footer">
-                <ul class="drawer-list">
-                    <li>
-                        <a class="drawer-link" href="https://github.com/garmir/garmir.github.io/commits/main/">
-                            <span class="indicator"></span>
-                            <span class="label">changelog</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="drawer-link" href="https://github.com/garmir">
-                            <span class="indicator"></span>
-                            <span class="label">github</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <div class="drawer-footer">
+          <ul class="drawer-list">
+            <li>
+              <a class="drawer-link" href="garmir.io_directory/directory.html">
+                <span class="indicator">[dir]</span>
+                <span class="label">directory</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="drawer-link"
+                href="https://github.com/garmir/garmir.github.io/commits/main/"
+              >
+                <span class="indicator">[log]</span>
+                <span class="label">changelog</span>
+              </a>
+            </li>
+            <li>
+              <a class="drawer-link" href="https://github.com/garmir">
+                <span class="indicator">[git]</span>
+                <span class="label">github</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </header>
 
     <header class="drawer-mobile">
