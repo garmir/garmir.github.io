@@ -6,95 +6,94 @@
     <title>Community and Tech - garmir.io | Technical Blog</title>
     <meta name="description" content="Building digital sovereignty through community infrastructure and privacy-preserving technologies.">
 
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-        }
-        .post-header {
-            margin-bottom: 40px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
-        }
-        .post-meta {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-        .back-link {
-            color: #007acc;
-            text-decoration: none;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="../../garmir.io_assets/style.css" />
 </head>
-<body>
-    <a href="../../posts.html" class="back-link">← Back to Posts</a>
+<body class="container">
+    <header class="drawer">
+      <nav class="drawer-body">
+        <a class="drawer-link" href="../../index.html">
+          <span class="indicator"></span>
+          <span class="label">garmir.io</span>
+        </a>
 
-    <article class="post-header">
-        <div class="post-meta">Technology · Community Infrastructure</div>
-        <h1>Community and Tech</h1>
-        <p class="post-description">Building digital sovereignty through community infrastructure and privacy-preserving technologies.</p>
-    </article>
+        <ul class="drawer-list shift">
+          <li><a class="drawer-link active" href="../../posts.html"><span class="indicator">></span><span class="label">posts</span></a></li>
+          <li><a class="drawer-link" href="../../projects.html"><span class="indicator"></span><span class="label">projects</span></a></li>
+          <li><a class="drawer-link" href="../../pictures.html"><span class="indicator"></span><span class="label">pictures</span></a></li>
+        </ul>
 
-    <main>
-        <section>
-            <h2>Digital Sovereignty</h2>
-            <p>Building technology that serves communities rather than extracting value from them. This means creating infrastructure that is:</p>
-            <ul>
-                <li>Self-hosted and community-controlled</li>
-                <li>Privacy-preserving by design</li>
-                <li>Interoperable and standards-based</li>
-                <li>Sustainable and maintainable</li>
-            </ul>
-        </section>
+        <div class="drawer-footer">
+          <ul class="drawer-list">
+            <li><a class="drawer-link" href="../directory.html"><span class="indicator"></span><span class="label">directory</span></a></li>
+            <li><a class="drawer-link" href="https://github.com/garmir/garmir.github.io/commits/main/"><span class="indicator"></span><span class="label">changelog</span></a></li>
+            <li><a class="drawer-link" href="https://github.com/garmir"><span class="indicator"></span><span class="label">github</span></a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
-        <section>
-            <h2>Community Infrastructure</h2>
-            <p>Technical infrastructure should strengthen community bonds and enable collaboration while maintaining individual privacy and autonomy.</p>
+    <header class="drawer-mobile">
+      <a class="drawer-link" href="../../index.html"><span class="indicator"></span><span class="label">garmir.io</span></a>
+      <a class="drawer-link" href="../directory.html"><span class="indicator"></span><span class="label">directory</span></a>
+      <a class="drawer-link active" href="../../posts.html"><span class="indicator"></span><span class="label">posts</span></a>
+    </header>
 
-            <h3>Core Principles</h3>
-            <ul>
-                <li><strong>Local Control:</strong> Communities own and operate their technology</li>
-                <li><strong>Mutual Aid:</strong> Resource sharing without exploitation</li>
-                <li><strong>Privacy First:</strong> Personal data never leaves community control</li>
-                <li><strong>Open Standards:</strong> Interoperability prevents vendor lock-in</li>
-            </ul>
-        </section>
+    <main class="about">
+      <div class="page-grid">
+        <div class="title-column"></div>
+        <div class="content-column">
+          <div class="sections-grid">
+            <section class="section">
+              <h2 class="section-title">Community and Tech</h2>
+              <div class="section-content">
+                <p class="post-meta">Technology · Community Infrastructure</p>
+                <p class="post-description">Building digital sovereignty through community infrastructure and privacy-preserving technologies.</p>
+                <h3>Digital Sovereignty</h3>
+                <p>Building technology that serves communities rather than extracting value from them. This means creating infrastructure that is:</p>
+                <ul>
+                  <li>Self-hosted and community-controlled</li>
+                  <li>Privacy-preserving by design</li>
+                  <li>Interoperable and standards-based</li>
+                  <li>Sustainable and maintainable</li>
+                </ul>
 
-        <section>
-            <h2>Practical Implementation</h2>
-            <p>Building community tech requires both technical solutions and social coordination:</p>
+                <h3>Community Infrastructure</h3>
+                <p>Technical infrastructure should strengthen community bonds and enable collaboration while maintaining individual privacy and autonomy.</p>
 
-            <h3>Technical Stack</h3>
-            <ul>
-                <li>Self-hosted git repositories (Gitea, Forgejo)</li>
-                <li>Mesh networking for resilient communication</li>
-                <li>Distributed storage and backup systems</li>
-                <li>Privacy-preserving analytics and monitoring</li>
-            </ul>
+                <h4>Core Principles</h4>
+                <ul>
+                  <li><strong>Local Control:</strong> Communities own and operate their technology</li>
+                  <li><strong>Mutual Aid:</strong> Resource sharing without exploitation</li>
+                  <li><strong>Privacy First:</strong> Personal data never leaves community control</li>
+                  <li><strong>Open Standards:</strong> Interoperability prevents vendor lock-in</li>
+                </ul>
 
-            <h3>Social Coordination</h3>
-            <ul>
-                <li>Shared governance models for technical decisions</li>
-                <li>Skills sharing and mentorship programs</li>
-                <li>Sustainable funding without extraction</li>
-                <li>Documentation and knowledge preservation</li>
-            </ul>
-        </section>
+                <h3>Practical Implementation</h3>
+                <p>Building community tech requires both technical solutions and social coordination:</p>
 
-        <section>
-            <h2>Moving Forward</h2>
-            <p>The path to digital sovereignty is both technical and social. We build better technology by building better communities, and we build better communities through technology that serves human needs rather than profit extraction.</p>
-        </section>
+                <h4>Technical Stack</h4>
+                <ul>
+                  <li>Self-hosted git repositories (Gitea, Forgejo)</li>
+                  <li>Mesh networking for resilient communication</li>
+                  <li>Distributed storage and backup systems</li>
+                  <li>Privacy-preserving analytics and monitoring</li>
+                </ul>
+
+                <h4>Social Coordination</h4>
+                <ul>
+                  <li>Shared governance models for technical decisions</li>
+                  <li>Skills sharing and mentorship programs</li>
+                  <li>Sustainable funding without extraction</li>
+                  <li>Documentation and knowledge preservation</li>
+                </ul>
+
+                <h3>Moving Forward</h3>
+                <p>The path to digital sovereignty is both technical and social. We build better technology by building better communities, and we build better communities through technology that serves human needs rather than profit extraction.</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </main>
 </body>
 </html>
