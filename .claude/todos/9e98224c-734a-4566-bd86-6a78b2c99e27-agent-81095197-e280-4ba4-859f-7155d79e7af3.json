@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Search for rotation service definitions and iio-hyprland references",
+    "status": "completed",
+    "activeForm": "Searching for rotation service definitions and iio-hyprland references"
+  },
+  {
+    "content": "Identify missing binaries and incorrect paths",
+    "status": "completed",
+    "activeForm": "Identifying missing binaries and incorrect paths"
+  },
+  {
+    "content": "Fix binary paths and add missing package dependencies",
+    "status": "in_progress",
+    "activeForm": "Fixing binary paths and adding missing package dependencies"
+  },
+  {
+    "content": "Verify service configuration and test services can start",
+    "status": "pending",
+    "activeForm": "Verifying service configuration and testing services can start"
+  }
+]

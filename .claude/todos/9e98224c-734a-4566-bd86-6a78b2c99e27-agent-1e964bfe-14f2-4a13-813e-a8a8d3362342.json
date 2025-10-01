@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Check dmesg and journalctl for specific ACPI BIOS errors",
+    "status": "in_progress",
+    "activeForm": "Checking kernel logs for ACPI BIOS errors"
+  },
+  {
+    "content": "Examine existing NixOS hardware configuration and kernel parameters",
+    "status": "pending",
+    "activeForm": "Examining existing NixOS hardware configuration"
+  },
+  {
+    "content": "Research GPD Pocket 3 specific ACPI workarounds and solutions",
+    "status": "pending",
+    "activeForm": "Researching GPD Pocket 3 ACPI workarounds"
+  },
+  {
+    "content": "Implement kernel parameters and ACPI overrides in NixOS config",
+    "status": "pending",
+    "activeForm": "Implementing kernel parameters and ACPI overrides"
+  },
+  {
+    "content": "Document findings and categorize errors (fixable vs harmless)",
+    "status": "pending",
+    "activeForm": "Documenting findings and categorizing errors"
+  }
+]

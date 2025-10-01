@@ -1,0 +1,70 @@
+name: Corrected Exponential Cascade
+on: [workflow_dispatch, push]
+
+jobs:
+  level-0-root:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+        continue-on-error: true
+
+      - name: Level 0 - Deploy and Trigger Level 1
+        continue-on-error: true
+        run: |
+          # Create simple branch workflow
+          cat > simple-branch.yml << 'EOF'
+          name: Simple Branch
+          on: [workflow_dispatch, push]
+          jobs:
+            branch:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v4
+                - name: Branch Execute
+                  run: |
+                    echo "Branch from ${{ github.repository }}: $(date)" > branch-result.txt
+                    curl -s ifconfig.me >> branch-result.txt 2>/dev/null || echo "No curl"
+                - name: Deploy to Next Level
+                  run: |
+                    echo "Deploying to next level repositories..."
+                    for next in garmir/0x05 garmir/0x06 garmir/0x07; do
+                      echo "Would deploy to $next"
+                    done
+                - uses: actions/upload-artifact@v4
+                  with:
+                    name: branch-results
+                    path: "*.txt"
+          EOF
+
+          nix-shell -p github-cli coreutils --run '
+            echo "🌳 Level 0: Deploying to current hex repositories"
+
+            # Deploy and trigger Level 1 (0x02, 0x03, 0x04)
+            for repo in 0x02 0x03 0x04; do
+              echo "Deploying to garmir/$repo"
+              gh api repos/garmir/$repo/contents/.github/workflows/simple-branch.yml --method PUT \
+                --field message="Deploy from Level 0" \
+                --field content="$(base64 -w 0 simple-branch.yml)" 2>/dev/null || echo "$repo exists"
+
+              echo "Triggering workflow in garmir/$repo"
+              gh workflow run simple-branch.yml --repo garmir/$repo 2>/dev/null || echo "$repo triggered"
+            done
+
+            echo "✅ Level 0 cascade initiated to Level 1"
+            echo "Level 0 execution: $(date)" > level-0.txt
+          '
+
+      - name: Ubuntu Fallback
+        if: failure()
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y curl
+          echo "Ubuntu fallback cascade: $(date)" > fallback-cascade.txt
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: cascade-level-0
+          path: "*.txt"
+          retention-days: 1

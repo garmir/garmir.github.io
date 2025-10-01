@@ -1,0 +1,42 @@
+[
+  {
+    "content": "Remove old npm-based claude-code module",
+    "status": "in_progress",
+    "activeForm": "Removing old npm-based claude-code module"
+  },
+  {
+    "content": "Clean up duplicate/temporary files",
+    "status": "in_progress",
+    "activeForm": "Cleaning up duplicate/temporary files"
+  },
+  {
+    "content": "Validate all Nix syntax",
+    "status": "in_progress",
+    "activeForm": "Validating all Nix syntax"
+  },
+  {
+    "content": "Run comprehensive stress tests",
+    "status": "pending",
+    "activeForm": "Running comprehensive stress tests"
+  },
+  {
+    "content": "Test Home Manager integration",
+    "status": "pending",
+    "activeForm": "Testing Home Manager integration"
+  },
+  {
+    "content": "Verify MCP server derivations build",
+    "status": "pending",
+    "activeForm": "Verifying MCP server derivations build"
+  },
+  {
+    "content": "Test .claude configuration queries under load",
+    "status": "pending",
+    "activeForm": "Testing .claude configuration queries under load"
+  },
+  {
+    "content": "Generate final release documentation",
+    "status": "pending",
+    "activeForm": "Generating final release documentation"
+  }
+]

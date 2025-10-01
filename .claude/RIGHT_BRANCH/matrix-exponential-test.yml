@@ -1,0 +1,90 @@
+name: Matrix Exponential Test
+on: [workflow_dispatch, push]
+
+jobs:
+  exponential-matrix-root:
+    runs-on: ubuntu-latest
+    outputs:
+      level-1-repos: ${{ steps.generate.outputs.repos }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+        continue-on-error: true
+
+      - name: Root Node - Generate Matrix Following .claude
+        id: generate
+        continue-on-error: true
+        run: |
+          nix-shell -p coreutils jq --run '
+            echo "🌳 Matrix exponential root from 0x01"
+            echo "repos=[\"0x02\",\"0x03\",\"0x04\"]" >> $GITHUB_OUTPUT
+            echo "Matrix generated for exponential branching" > matrix-root.txt
+            echo "Timestamp: $(date)" >> matrix-root.txt
+          '
+          nix-shell -p curl --run 'curl -s ifconfig.me >> matrix-root.txt'
+
+      - name: Upload Root Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-root-results
+          path: "*.txt"
+          retention-days: 1
+
+  level-1-matrix-execution:
+    needs: exponential-matrix-root
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ["0x02", "0x03", "0x04"]
+    steps:
+      - name: Simulate Level 1 Branch Execution
+        continue-on-error: true
+        run: |
+          nix-shell -p curl coreutils ripgrep fd jq --run '
+            echo "🌿 Level 1 branch simulating ${{ matrix.repo }}" > branch-${{ matrix.repo }}.txt
+            echo "Parent: 0x01" >> branch-${{ matrix.repo }}.txt
+            echo "Timestamp: $(date)" >> branch-${{ matrix.repo }}.txt
+            curl -s ifconfig.me >> branch-${{ matrix.repo }}.txt
+            echo "Tool validation: $(rg --version | head -1)" >> branch-${{ matrix.repo }}.txt
+            echo "Tool validation: $(fd --version)" >> branch-${{ matrix.repo }}.txt
+            echo "Tool validation: $(jq --version)" >> branch-${{ matrix.repo }}.txt
+          '
+
+      - name: Ubuntu Fallback
+        if: failure()
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y curl
+          echo "Ubuntu fallback for ${{ matrix.repo }}" > ubuntu-${{ matrix.repo }}.txt
+
+      - name: Upload Branch Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-branch-${{ matrix.repo }}
+          path: "*.txt"
+          retention-days: 1
+
+  level-2-expansion:
+    needs: level-1-matrix-execution
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parent: ["0x02", "0x03", "0x04"]
+        child: [1, 2, 3]
+    steps:
+      - name: Level 2 Exponential Expansion
+        continue-on-error: true
+        run: |
+          nix-shell -p coreutils --run '
+            echo "🌳 Level 2 expansion from ${{ matrix.parent }} branch ${{ matrix.child }}" > level2-${{ matrix.parent }}-${{ matrix.child }}.txt
+            echo "Exponential pattern: Each Level 1 spawns 3 Level 2 nodes" >> level2-${{ matrix.parent }}-${{ matrix.child }}.txt
+            echo "Timestamp: $(date)" >> level2-${{ matrix.parent }}-${{ matrix.child }}.txt
+          '
+          nix-shell -p curl --run 'curl -s ifconfig.me >> level2-${{ matrix.parent }}-${{ matrix.child }}.txt'
+
+      - name: Upload Level 2 Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: level2-${{ matrix.parent }}-${{ matrix.child }}
+          path: "*.txt"
+          retention-days: 1

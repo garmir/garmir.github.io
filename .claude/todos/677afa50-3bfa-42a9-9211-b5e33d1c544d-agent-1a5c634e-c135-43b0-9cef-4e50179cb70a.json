@@ -1,0 +1,47 @@
+[
+  {
+    "content": "Create minimal test configuration (just enable)",
+    "status": "pending",
+    "activeForm": "Creating minimal test configuration"
+  },
+  {
+    "content": "Create full test configuration (all MCP servers enabled)",
+    "status": "pending",
+    "activeForm": "Creating full test configuration"
+  },
+  {
+    "content": "Create custom permissions test configuration",
+    "status": "pending",
+    "activeForm": "Creating custom permissions test"
+  },
+  {
+    "content": "Create custom agents test configuration",
+    "status": "pending",
+    "activeForm": "Creating custom agents test"
+  },
+  {
+    "content": "Create multiple projects test configuration",
+    "status": "pending",
+    "activeForm": "Creating multiple projects test"
+  },
+  {
+    "content": "Test option validation with invalid inputs",
+    "status": "pending",
+    "activeForm": "Testing option validation"
+  },
+  {
+    "content": "Build and verify generated files in ~/.claude/",
+    "status": "pending",
+    "activeForm": "Building and verifying generated files"
+  },
+  {
+    "content": "Verify shell integration (aliases, functions)",
+    "status": "pending",
+    "activeForm": "Verifying shell integration"
+  },
+  {
+    "content": "Compile test results and integration issues",
+    "status": "pending",
+    "activeForm": "Compiling test results"
+  }
+]

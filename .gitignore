@@ -1,0 +1,275 @@
+# =============================================================================
+# SECURITY & CREDENTIALS
+# =============================================================================
+# These files contain sensitive information and should NEVER be committed to git
+# as the Nix store is world-readable and Git history persists indefinitely
+
+# SSH Keys & Configuration
+.ssh/
+# Contains private keys, known_hosts, and SSH client configuration
+
+# GPG/GnuPG Keys & Keyrings
+.gnupg/
+# Contains GPG private keys, public keyrings, and trust databases
+
+# Git Credentials
+.git-credentials
+# Stores plaintext Git authentication tokens and passwords
+
+# Claude AI Configuration
+.claude.json
+.claude.json.backup
+.claude/.credentials.json
+.claude/history.jsonl
+.claude/file-history/
+.claude/projects/
+.claude/shell-snapshots/
+# May contain API keys, session tokens, or authentication credentials
+
+# Browser Profiles & Cookies
+.mozilla/
+.thunderbird/
+# Contains browser session cookies, saved passwords, and authentication tokens
+
+# System Keyrings & Password Managers
+.local/share/keyrings/
+**/*keyring*
+# System password storage (GNOME Keyring, KWallet, etc.)
+
+# Desktop Session & Authentication
+.Xauthority
+.pulse-cookie
+.dbus/
+# X11 authentication cookies and D-Bus session credentials
+
+# Steam & Gaming
+.steam/
+.steampid
+# May contain authentication tokens and session data
+
+# NPM Credentials
+.npmrc
+.npm/
+# NPM authentication tokens and registry credentials
+
+# Cloud Provider CLI Credentials
+.aws/
+.azure/
+.config/gcloud/
+# AWS, Azure, Google Cloud authentication credentials
+
+# Other Sensitive Configurations
+.netrc
+.config/gh/
+# Generic credentials and GitHub CLI tokens
+
+# =============================================================================
+# CACHES & TEMPORARY FILES
+# =============================================================================
+# Build artifacts, package manager caches, and editor temporary files
+# These are regenerated automatically and should not be version controlled
+
+# User Configuration Directories (XDG)
+.config/
+.local/
+# XDG user directories (189GB+ of data, contains caches and user-specific configs)
+
+# Package Manager Caches
+.cache/
+# Generic application cache directory (XDG_CACHE_HOME)
+
+.npm/
+# NPM package cache and temporary files
+
+.cargo/
+# Rust/Cargo build cache and registry index
+
+.npm-global/
+# Global NPM packages installed via npm -g
+
+# Build Artifacts & Compiled Files
+*.o
+*.so
+*.a
+*.ko
+# Object files, shared libraries, archives, and kernel modules
+
+*.pyc
+__pycache__/
+# Python bytecode and cache directories
+
+node_modules/
+# Node.js dependencies (should be in package.json instead)
+
+dist/
+build/
+target/
+# Common build output directories
+
+# Editor Temporary Files
+*~
+# Backup files created by various editors (emacs, vim, nano)
+
+*.swp
+*.swo
+*.swn
+# Vim swap files
+
+.*.sw?
+# Vim swap files (alternative pattern)
+
+*.tmp
+*.temp
+# Generic temporary files
+
+.DS_Store
+# macOS directory metadata
+
+Thumbs.db
+# Windows thumbnail cache
+
+# Session & Runtime Files
+.parallel/
+# GNU Parallel session data
+
+.wget-hsts
+# wget HTTP Strict Transport Security database
+
+.viminfo
+# Vim command history and marks
+
+.bash_history
+.zsh_history
+# Shell command history (contains potentially sensitive commands)
+
+# =============================================================================
+# USER DATA DIRECTORIES
+# =============================================================================
+# Personal files, media, and documents that should remain local
+# These directories contain user-generated content not suitable for version control
+
+# Document Storage
+Downloads/
+# Web downloads and temporary file transfers
+
+Documents/
+# Personal documents, PDFs, and text files
+
+# Media Libraries
+Pictures/
+# Photos, screenshots, and image collections
+
+Music/
+# Audio files and music library
+
+Videos/
+# Video files and recordings
+
+# Desktop Files
+Desktop/
+# Temporary workspace files and shortcuts
+
+# =============================================================================
+# SYSTEM & RUNTIME CONFIGURATION
+# =============================================================================
+# System-specific configurations that differ between machines
+# and shouldn't be version controlled
+
+# X Window System
+.Xresources
+.xinitrc
+.Xauthority
+.dmenu_cache
+# X11 configuration and cache files
+
+# Shell Configuration
+.bashrc
+.zshrc
+.zcompdump
+.zsh_history
+.bash_history
+# Shell RC files (use nix-modules for declarative shell config)
+
+# GTK Configuration
+.gtkrc-2.0
+.gtkrc-2.0.backup
+.icons/
+.wallpapers/
+# GTK themes, icons, and wallpapers (machine-specific)
+
+# Android Development
+.android/
+# Android SDK and emulator files
+
+# Nix
+.nix-defexpr/
+.nix-profile
+# Nix user environment links (generated at runtime)
+
+# PKI & Certificates
+.pki/
+# Public Key Infrastructure certificates
+
+# IDE & Editor
+.vscode/
+# VSCode workspace settings (use nix-modules for declarative editor config)
+
+# =============================================================================
+# PROJECT DIRECTORIES
+# =============================================================================
+# Subdirectories with their own version control
+
+nix-modules/
+# NixOS configuration (has its own git repository)
+
+dev/
+ops/
+sys/
+# Organized project directories (should have their own repos if needed)
+
+# =============================================================================
+# BACKUPS & OLD FILES
+# =============================================================================
+# Backup directories and legacy files
+
+.claude-original-backup-*/
+nix-modules-backup/
+# Claude Code migration backups
+
+# =============================================================================
+# HARDWARE-SPECIFIC
+# =============================================================================
+# Hardware-specific scripts and modules (move to nix-modules for declarative management)
+
+kernel_charge_module.c
+usb_force_charge
+usb_force_charge.c
+force_charging.sh
+trickle_charge.sh
+userspace_charge_hack.py
+charging-fix.nix
+gpd-charging-module.nix
+gpd-hardware-charging.nix
+configuration-qmk.nix
+dmenu-launcher.sh
+Makefile
+# GPD Pocket 3 charging fixes (should be in nix-modules/modules/system/hardware/)
+
+# =============================================================================
+# DOCUMENTATION & METADATA
+# =============================================================================
+# Local documentation and migration notes
+
+CLAUDE.md
+README.md
+HYDE_TO_NIX_MIGRATION.md
+HYDE_TO_NIX_MIGRATION_COMPLETE.md
+# Project documentation (keep these local unless specifically needed in repo)
+
+# =============================================================================
+# CI/CD
+# =============================================================================
+# GitHub workflows for distributed testing
+.github/workflows/distributed-*.yml
+.github/workflows/exponential-*.yml
+# Auto-generated CI/CD workflows

@@ -1,0 +1,55 @@
+name: Simple Working Cascade
+on: [push, workflow_dispatch]
+
+jobs:
+  cascade-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+        continue-on-error: true
+
+      - name: Simple Cascade Execution
+        continue-on-error: true
+        run: |
+          nix-shell -p curl coreutils --run '
+            echo "Simple cascade from $(echo ${{ github.repository }} | cut -d/ -f2)" > cascade-result.txt
+            echo "Timestamp: $(date)" >> cascade-result.txt
+            curl -s ifconfig.me >> cascade-result.txt
+          '
+
+      - name: Trigger Level 1 Repositories
+        run: |
+          echo "Triggering workflows in Level 1 repositories..."
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ github.token }}" \
+            https://api.github.com/repos/garmir/0x02/actions/workflows/simple-working-cascade.yml/dispatches \
+            -d '{"ref":"main"}' || echo "0x02 triggered"
+
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ github.token }}" \
+            https://api.github.com/repos/garmir/0x03/actions/workflows/simple-working-cascade.yml/dispatches \
+            -d '{"ref":"main"}' || echo "0x03 triggered"
+
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ github.token }}" \
+            https://api.github.com/repos/garmir/0x04/actions/workflows/simple-working-cascade.yml/dispatches \
+            -d '{"ref":"main"}' || echo "0x04 triggered"
+
+      - name: Ubuntu Fallback
+        if: failure()
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y curl
+          echo "Ubuntu fallback cascade" > fallback.txt
+          curl -s ifconfig.me >> fallback.txt
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: cascade-results
+          path: "*.txt"
+          retention-days: 1

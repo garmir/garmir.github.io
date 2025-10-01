@@ -1,0 +1,46 @@
+name: Exponential Tree Root
+on: [workflow_dispatch]
+
+jobs:
+  level-0-root:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+        continue-on-error: true
+
+      - name: Level 0 - Root Node Analysis
+        continue-on-error: true
+        run: |
+          nix-shell -p curl coreutils --run '
+            echo "🌳 Level 0: Root Node Executing" > tree-level-0.txt
+            echo "Timestamp: $(date)" >> tree-level-0.txt
+            curl -s ifconfig.me >> tree-level-0.txt
+            echo "Root analysis complete" >> tree-level-0.txt
+          '
+
+      - name: Spawn Level 1 Branches (3 repositories)
+        continue-on-error: true
+        run: |
+          nix-shell -p github-cli --run '
+            echo "🌿 Spawning 3 Level 1 branches..."
+            gh workflow run exponential-tree-branch.yml --repo garmir/0x02 --field level=1 --field parent=0x01 &
+            gh workflow run exponential-tree-branch.yml --repo garmir/0x03 --field level=1 --field parent=0x01 &
+            gh workflow run exponential-tree-branch.yml --repo garmir/0x04 --field level=1 --field parent=0x01 &
+            echo "✅ Level 1 spawning initiated"
+          '
+
+      - name: Ubuntu Fallback
+        if: failure()
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y curl
+          echo "✅ Ubuntu fallback - Level 0 root" > fallback-root.txt
+          curl -s ifconfig.me >> fallback-root.txt
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: exponential-tree-level-0
+          path: "tree-level-*.txt"
+          retention-days: 1

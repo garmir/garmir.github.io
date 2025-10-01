@@ -1,0 +1,53 @@
+name: Exact Claude Compliant
+on: [workflow_dispatch, push, repository_dispatch]
+
+jobs:
+  claude-compliant-step-isolation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+        continue-on-error: true
+
+      - name: Step 1 - Repository Analysis
+        continue-on-error: true
+        run: |
+          nix-shell -p github-cli coreutils findutils --run '
+            echo "Analysis Results:" > results.txt
+            echo "Files: $(find . -type f | wc -l)" >> results.txt
+            echo "Workflows: $(find .github/workflows -name "*.yml" | wc -l)" >> results.txt
+          '
+
+      - name: Step 2 - Network Discovery
+        continue-on-error: true
+        run: |
+          nix-shell -p curl --run 'curl -s ifconfig.me > external-ip.txt'
+
+      - name: Step 3 - Tool Validation
+        continue-on-error: true
+        run: |
+          nix-shell -p ripgrep --run 'rg --version > tool-versions.txt'
+          nix-shell -p fd --run 'fd --version >> tool-versions.txt'
+          nix-shell -p jq --run 'jq --version >> tool-versions.txt'
+
+      - name: Step 4 - Cross-Repo Trigger Attempt
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          nix-shell -p github-cli --run 'gh workflow run exact-claude-compliant.yml --repo garmir/0x02'
+          nix-shell -p github-cli --run 'gh workflow run exact-claude-compliant.yml --repo garmir/0x03'
+
+      - name: Ubuntu Fallback
+        if: failure()
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y curl findutils
+          echo "Ubuntu fallback: step isolation" > ubuntu-fallback.txt
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: exact-claude-compliant-results
+          path: "*.txt"
+          retention-days: 7

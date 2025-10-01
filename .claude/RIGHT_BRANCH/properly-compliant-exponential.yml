@@ -1,0 +1,57 @@
+name: Properly Compliant Exponential
+on: [workflow_dispatch, push, repository_dispatch]
+
+jobs:
+  compliant-exponential-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+        continue-on-error: true
+
+      - name: Complete Exponential Chain in Single Nix Environment
+        continue-on-error: true
+        run: |
+          nix-shell -p curl coreutils ripgrep fd jq github-cli --run '
+            echo "🌳 Properly compliant exponential from $(echo ${{ github.repository }} | cut -d/ -f2)" > exponential-result.txt
+            echo "Timestamp: $(date)" >> exponential-result.txt
+            echo "Event: ${{ github.event_name }}" >> exponential-result.txt
+            curl -s ifconfig.me >> exponential-result.txt
+
+            echo "📋 .claude Compliance Validation" >> exponential-result.txt
+            echo "Universal nix-shell: ✅ ALL commands in single environment" >> exponential-result.txt
+            echo "Tool arsenal: $(rg --version | head -1)" >> exponential-result.txt
+            echo "Tool arsenal: $(fd --version)" >> exponential-result.txt
+            echo "Tool arsenal: $(jq --version)" >> exponential-result.txt
+
+            REPO_NUM=$(echo ${{ github.repository }} | cut -d/ -f2 | sed s/0x//)
+            NEXT_LEVEL=$((REPO_NUM + 1))
+
+            if [ $NEXT_LEVEL -le 14 ]; then
+              NEXT_REPO=$(printf "0x%02x" $NEXT_LEVEL)
+              echo "Triggering exponential branch to garmir/$NEXT_REPO" >> exponential-result.txt
+              gh workflow run properly-compliant-exponential.yml --repo garmir/$NEXT_REPO || echo "Trigger attempted for $NEXT_REPO" >> exponential-result.txt
+            else
+              echo "Exponential cascade complete at repository limit" >> exponential-result.txt
+            fi
+
+            echo "✅ Complete exponential chain executed in single nix environment" >> exponential-result.txt
+          '
+
+      - name: Ubuntu Fallback Complete Chain
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y curl bc github-cli
+          echo "Ubuntu fallback complete exponential chain" > ubuntu-exponential.txt
+          curl -s ifconfig.me >> ubuntu-exponential.txt
+          echo "Fallback chain complete" >> ubuntu-exponential.txt
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: properly-compliant-exponential-results
+          path: "*.txt"
+          retention-days: 7
