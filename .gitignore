@@ -24,6 +24,9 @@
 .claude/file-history/
 .claude/projects/
 .claude/shell-snapshots/
+.claude/statsig/
+.claude/DOCUMENTATION/
+.claude/todos/*.json
 # May contain API keys, session tokens, or authentication credentials
 
 # Browser Profiles & Cookies
