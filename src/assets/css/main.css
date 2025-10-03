@@ -2,13 +2,13 @@
 /* phrack.org inspired terminal aesthetic */
 
 :root {
-    --primary-color: #0a0a0a;
+    --primary-color: #000000;
     --secondary-color: #1a1a1a;
-    --accent-color: #00ff41;  /* Matrix green */
-    --background-color: #0a0a0a;  /* Softer black */
+    --accent-color: #ffffff;  /* Pure monochrome */
+    --background-color: #000000;  /* Pure black */
     --border-color: #333333;
-    --text-color: #e8e8e8;  /* Softer white */
-    --text-muted: #aaaaaa;  /* AAA contrast */
+    --text-color: #ffffff;  /* Pure white */
+    --text-muted: #999999;  /* Gray */
 
     /* responsive dimensions using viewport units */
     --drawer-width: min(25vw, 20rem);
