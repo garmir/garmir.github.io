@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>directory - garmir.io | site navigation</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="complete site directory and navigation for garmir.io technical blog and projects." />
+
+    <!-- performance optimizations -->
+    <link rel="preload" href="../garmir.io_assets/style.css" as="style" />
+    <link rel="stylesheet" href="../garmir.io_assets/style.css" />
+
+    <!-- critical css inlined for faster rendering -->
+    <style>
+      .container { display: flex; min-height: 100vh; }
+      .about { margin-left: 280px; flex: 1; padding: 40px; }
+      @media (max-width: 768px) {
+        .about { margin-left: 0; margin-top: 60px; padding: 20px; }
+      }
+    </style>
+
+    <!-- accessibility enhancements -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  </head>
+
+  <body class="container">
+    <header class="drawer">
+      <nav class="drawer-body">
+        <a class="drawer-link" href="../index.html">
+          <span class="indicator">[home]</span>
+          <span class="label">./home</span>
+        </a>
+        <a class="drawer-link active" href="../garmir.io_directory/directory.html">
+          <span class="indicator">[*]</span>
+          <span class="label">./directory/</span>
+        </a>
+
+        <div class="ascii-divider">
+          <pre>
+╔═══════════════════════════════════════════════════════════════════╗
+║ directory listing                                                 ║
+╚═══════════════════════════════════════════════════════════════════╝
+          </pre>
+        </div>
+
+        <ul class="drawer-list shift">
+          <li>
+            <a class="drawer-link" href="../posts.html">
+              <span class="indicator">├──</span>
+              <span class="label">./posts/</span>
+            </a>
+          </li>
+          <li>
+            <a class="drawer-link" href="../projects.html">
+              <span class="indicator">├──</span>
+              <span class="label">./projects/</span>
+            </a>
+          </li>
+          <li>
+            <a class="drawer-link" href="../pictures.html">
+              <span class="indicator">└──</span>
+              <span class="label">./pictures/</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <header class="drawer-mobile">
+      <a class="drawer-link" href="../index.html">
+        <span class="indicator"></span>
+        <span class="label">garmir.io</span>
+      </a>
+      <a class="drawer-link active" href="directory.html">
+        <span class="indicator"></span>
+        <span class="label">directory</span>
+      </a>
+    </header>
+
+    <main class="about">
+      <div class="page-grid">
+        <div class="title-column"></div>
+        <div class="content-column">
+          <div class="sections-grid">
+            <section class="section">
+              <div class="ascii-header">
+┌─────────────────────────────────────────────────────────────────┐
+│ site directory                                                  │
+├─────────────────────────────────────────────────────────────────┤
+              </div>
+              <div class="section-content">
+                <p>complete navigation structure for garmir.io technical content and projects.</p>
+
+                <div class="ascii-directory">
+                  <pre>
+garmir.io/
+├── index.html                    [main landing page]
+├── posts.html                    [technical blog posts]
+├── projects.html                 [development projects]
+├── pictures.html                 [visual content]
+├── garmir.io_posts/
+│   ├── agent-automation-patterns.html
+│   ├── community-infrastructure.html
+│   ├── development-workflow-rules.html
+│   ├── distributed-systems.html
+│   └── workflow-automation.html
+└── garmir.io_projects/
+    ├── superclaude-framework.html
+    └── testing-framework.html
+                  </pre>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="ascii-header">
+├─────────────────────────────────────────────────────────────────┤
+│ quick access                                                    │
+├─────────────────────────────────────────────────────────────────┤
+              </div>
+              <div class="section-content">
+                <div class="ascii-nav-list">
+                  <pre>
+[main]    <a href="../index.html">./index.html</a>           - homepage
+[blog]    <a href="../posts.html">./posts.html</a>           - technical posts
+[code]    <a href="../projects.html">./projects.html</a>         - project portfolio
+[pics]    <a href="../pictures.html">./pictures.html</a>        - visual gallery
+[repo]    <a href="https://github.com/garmir">./github.com/garmir</a>   - source repositories
+                  </pre>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
