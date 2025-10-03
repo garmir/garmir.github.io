@@ -1,0 +1,33 @@
+{
+  "name": "garmir.io",
+  "version": "1.0.0",
+  "description": "Personal portfolio site with terminal aesthetic - SuperClaude v3.777 refactored",
+  "private": true,
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy && npm run optimize",
+    "optimize": "npm run css:minify && npm run js:minify",
+    "css:minify": "postcss src/assets/css/main.css --output dist/assets/css/style.min.css",
+    "js:minify": "terser src/assets/js/globe.js --compress --mangle --output dist/assets/js/globe.min.js",
+    "test": "npm run test:html && npm run test:links",
+    "test:html": "html-validate 'dist/**/*.html'",
+    "test:links": "echo 'Link validation placeholder'",
+    "serve": "cd dist && python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0",
+    "cssnano": "^6.0.1",
+    "autoprefixer": "^10.4.16",
+    "terser": "^5.24.0",
+    "html-validate": "^8.7.2",
+    "markdown-it": "^13.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/garmir/garmir.github.io.git"
+  },
+  "author": "ana mcdougall",
+  "license": "MIT"
+}

@@ -1,0 +1,20 @@
+{# Mobile Header Navigation Component #}
+{# Usage: {% include "drawer-mobile.njk" %} #}
+{# Replaces 40 lines × 14 files = 560 lines of duplication #}
+
+<header class="drawer-mobile">
+  <a class="drawer-link {% if page.url == '/' or page.url == '/index.html' %}active{% endif %}" href="/index.html">
+    <span class="indicator"></span>
+    <span class="label">{{ navigation.home.label }}</span>
+  </a>
+  <a class="drawer-link" href="{{ navigation.footer[0].href }}">
+    <span class="indicator"></span>
+    <span class="label">{{ navigation.footer[0].label }}</span>
+  </a>
+  {% for item in navigation.primary %}
+  <a class="drawer-link {% if page.url == item.href %}active{% endif %}" href="{{ item.href }}">
+    <span class="indicator"></span>
+    <span class="label">{{ item.label }}</span>
+  </a>
+  {% endfor %}
+</header>

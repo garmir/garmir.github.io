@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include "meta-head.njk" %}
+
+  <body class="container">
+    {# Skip to main content link for accessibility #}
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    {# Desktop navigation sidebar #}
+    {% include "drawer-desktop.njk" %}
+
+    {# Mobile navigation header #}
+    {% include "drawer-mobile.njk" %}
+
+    <main class="about" role="main" id="main-content">
+      <div class="page-grid">
+        <div class="title-column"></div>
+        <div class="content-column">
+          {{ content | safe }}
+        </div>
+      </div>
+    </main>
+
+    <!-- Simple site functionality -->
+    <script>
+      console.log('garmir.io loaded - visit github.com/garmir/globe for cli globe rendering');
+    </script>
+    {% if globeEnabled %}
+    <script src="/assets/js/globe.min.js" defer></script>
+    {% endif %}
+  </body>
+</html>

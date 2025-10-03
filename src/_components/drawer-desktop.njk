@@ -1,0 +1,36 @@
+{# Desktop Sidebar Navigation Component #}
+{# Usage: {% include "drawer-desktop.njk" %} #}
+{# Replaces 68 lines × 14 files = 950 lines of duplication #}
+
+<header class="drawer">
+  <nav class="drawer-body" role="navigation" aria-label="Main navigation">
+    <a class="drawer-link {% if page.url == '/' or page.url == '/index.html' %}active{% endif %}" href="/index.html">
+      <span class="indicator">></span>
+      <span class="label">{{ navigation.home.label }}</span>
+    </a>
+
+    <ul class="drawer-list shift">
+      {% for item in navigation.primary %}
+      <li>
+        <a class="drawer-link {% if page.url == item.href %}active{% endif %}" href="{{ item.href }}">
+          <span class="indicator"></span>
+          <span class="label">{{ item.label }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="drawer-footer">
+      <ul class="drawer-list">
+        {% for item in navigation.footer %}
+        <li>
+          <a class="drawer-link" href="{{ item.href }}" {% if item.external %}target="_blank" rel="noopener"{% endif %}>
+            <span class="indicator"></span>
+            <span class="label">{{ item.label }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
+</header>

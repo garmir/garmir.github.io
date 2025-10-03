@@ -1,0 +1,42 @@
+{
+  "primary": [
+    {
+      "label": "posts",
+      "href": "/posts.html",
+      "id": "posts"
+    },
+    {
+      "label": "projects",
+      "href": "/projects.html",
+      "id": "projects"
+    },
+    {
+      "label": "pictures",
+      "href": "/pictures.html",
+      "id": "pictures"
+    }
+  ],
+  "footer": [
+    {
+      "label": "directory",
+      "href": "/garmir.io_directory/directory.html",
+      "id": "directory"
+    },
+    {
+      "label": "changelog",
+      "href": "https://github.com/garmir/garmir.github.io/commits/main/",
+      "id": "changelog",
+      "external": true
+    },
+    {
+      "label": "github",
+      "href": "https://github.com/garmir",
+      "id": "github",
+      "external": true
+    }
+  ],
+  "home": {
+    "label": "garmir.io",
+    "href": "/index.html"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "title": "garmir.io | ana mcdougall - software developer",
+  "description": "ana mcdougall - software developer specializing in distributed systems, automation frameworks, and community infrastructure.",
+  "url": "https://garmir.github.io",
+  "author": {
+    "name": "ana mcdougall",
+    "github": "https://github.com/garmir"
+  },
+  "keywords": [
+    "software developer",
+    "distributed systems",
+    "automation frameworks",
+    "community infrastructure",
+    "privacy technology"
+  ],
+  "image": "/garmir.io_assets/globe.gif",
+  "themeColor": "#000000"
+}

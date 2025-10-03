@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://garmir.github.io/sitemap.xml

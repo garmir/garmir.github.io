@@ -1,0 +1,67 @@
+{# Meta/Head Component #}
+{# Usage: {% include "meta-head.njk" %} #}
+{# Consolidates SEO, Open Graph, Twitter Cards, Structured Data #}
+
+<head>
+  <title>{{ title or site.title }}</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="{{ description or site.description }}" />
+  <meta name="keywords" content="{{ keywords or site.keywords | join(', ') }}" />
+  <meta name="author" content="{{ site.author.name }}" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+  <meta property="og:title" content="{{ title or site.title }}" />
+  <meta property="og:description" content="{{ description or site.description }}" />
+  <meta property="og:image" content="{{ site.url }}{{ image or site.image }}" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:url" content="{{ site.url }}{{ page.url }}" />
+  <meta property="twitter:title" content="{{ title or site.title }}" />
+  <meta property="twitter:description" content="{{ description or site.description }}" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "{{ schemaType or 'Person' }}",
+    "name": "{{ site.author.name }}",
+    "jobTitle": "software developer",
+    "description": "{{ site.description }}",
+    "url": "{{ site.url }}",
+    "sameAs": [
+      "{{ site.author.github }}"
+    ],
+    "knowsAbout": [
+      "distributed systems",
+      "automation frameworks",
+      "community infrastructure",
+      "privacy technology"
+    ]
+  }
+  </script>
+
+  <!-- Performance optimizations -->
+  <link rel="preload" href="/assets/css/style.min.css" as="style" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link rel="stylesheet" href="/assets/css/style.min.css" />
+
+  <!-- Critical CSS inlined for faster rendering -->
+  <style>
+    .container { display: flex; min-height: 100vh; }
+    .about { margin-left: 280px; flex: 1; padding: 40px; }
+    @media (max-width: 768px) {
+      .about { margin-left: 0; margin-top: 60px; padding: 20px; }
+    }
+  </style>
+
+  <!-- Accessibility enhancements -->
+  <meta name="theme-color" content="{{ site.themeColor }}" />
+  <meta name="msapplication-navbutton-color" content="{{ site.themeColor }}" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+</head>
