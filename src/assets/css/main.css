@@ -604,3 +604,62 @@ body {
   outline: 2px solid var(--text-color);
   outline-offset: 2px;
 }
+
+/* Enhanced Terminal Design - SuperClaude v3.5 */
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Link glow effects */
+a {
+    transition: all 0.3s ease-in-out;
+}
+
+a:hover,
+a:focus {
+    text-shadow: 0 0 8px var(--accent-color);
+    color: var(--accent-color);
+}
+
+.drawer-link:hover,
+.drawer-link:focus {
+    background: rgba(0, 255, 65, 0.1);
+    border-left: 2px solid var(--accent-color);
+    padding-left: calc(1rem - 2px);
+}
+
+.drawer-link.active::after {
+    content: '_';
+    display: inline-block;
+    animation: cursor-blink 1.2s infinite;
+    margin-left: 0.25rem;
+    color: var(--accent-color);
+}
+
+/* Terminal cursor animation */
+@keyframes cursor-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* Improved focus visibility */
+*:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Subtle glow on ASCII headers */
+.ascii-header {
+    text-shadow: 0 0 4px rgba(0, 255, 65, 0.3);
+}
+
+/* Globe image hover effect */
+.globe-image {
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+.globe-image:hover {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 12px rgba(0, 255, 65, 0.4));
+}
