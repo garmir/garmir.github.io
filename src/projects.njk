@@ -1,0 +1,59 @@
+---
+layout: base.njk
+title: "Projects | garmir.io"
+description: "Open source projects and technical experiments"
+globeEnabled: true
+permalink: /projects.html
+---
+
+<div class="sections-grid">
+  <section class="section">
+    {% asciiHeader "projects" %}
+    <div class="section-content">
+      <p>open source projects and technical experiments in systems programming, automation, and infrastructure.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="project-title">
+      <a href="https://github.com/garmir/globe" target="_blank" rel="noopener">garmir/globe</a>
+    </h3>
+    <div class="section-content">
+      <p>interactive terminal globe renderer written in rust. displays a rotating ascii globe with geographic coordinates and real-time positioning.</p>
+
+      <div class="globe-display">
+        <a href="https://github.com/garmir/globe" target="_blank" rel="noopener">
+          <img src="https://github.com/garmir/garmir/raw/main/globe.gif"
+               alt="garmir/globe - interactive terminal globe CLI application"
+               class="globe-image"
+               width="400"
+               height="400"
+               loading="eager">
+        </a>
+      </div>
+
+      <p><strong>tech stack:</strong> rust, terminal graphics, geographic data rendering</p>
+      <p><strong>features:</strong> real-time globe rotation, coordinate display, ascii art rendering, cross-platform cli</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="project-title">
+      <a href="garmir.io_directory/garmir.io_projects/superclaude-framework.html">superclaude framework</a>
+    </h3>
+    <div class="section-content">
+      <p>advanced ai automation framework with parallel processing capabilities, declarative configuration, and space-time tradeoff optimization.</p>
+      <p><strong>tech stack:</strong> nix, pure functional configuration, mcp servers, github actions</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="project-title">
+      <a href="garmir.io_directory/garmir.io_projects/testing-framework.html">testing framework</a>
+    </h3>
+    <div class="section-content">
+      <p>declarative testing methodology using pure nix expressions for reproducible, compliance-validated test suites.</p>
+      <p><strong>tech stack:</strong> nix, bash, automated validation</p>
+    </div>
+  </section>
+</div>

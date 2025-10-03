@@ -1,141 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
+  
+
+
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - garmir.io | Development Projects</title>
-    <meta name="description" content="Development projects focusing on automation frameworks, distributed systems, and community infrastructure.">
+  <title>Projects | garmir.io</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Open source projects and technical experiments" />
+  <meta name="keywords" content="software developer, distributed systems, automation frameworks, community infrastructure, privacy technology" />
+  <meta name="author" content="ana mcdougall" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://garmir.github.io/projects.html">
-    <meta property="og:title" content="Projects - garmir.io | Development Projects">
-    <meta property="og:description" content="Development projects focusing on automation frameworks, distributed systems, and community infrastructure.">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://garmir.github.io/projects.html" />
+  <meta property="og:title" content="Projects | garmir.io" />
+  <meta property="og:description" content="Open source projects and technical experiments" />
+  <meta property="og:image" content="https://garmir.github.io/garmir.io_assets/globe.gif" />
 
-    <link rel="stylesheet" href="garmir.io_assets/style.css">
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:url" content="https://garmir.github.io/projects.html" />
+  <meta property="twitter:title" content="Projects | garmir.io" />
+  <meta property="twitter:description" content="Open source projects and technical experiments" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "ana mcdougall",
+    "jobTitle": "software developer",
+    "description": "ana mcdougall - software developer specializing in distributed systems, automation frameworks, and community infrastructure.",
+    "url": "https://garmir.github.io",
+    "sameAs": [
+      "https://github.com/garmir"
+    ],
+    "knowsAbout": [
+      "distributed systems",
+      "automation frameworks",
+      "community infrastructure",
+      "privacy technology"
+    ]
+  }
+  </script>
+
+  <!-- Performance optimizations -->
+  <link rel="preload" href="/assets/css/style.min.css" as="style" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link rel="stylesheet" href="/assets/css/style.min.css" />
+
+  <!-- Critical CSS inlined for faster rendering -->
+  <style>
+    .container { display: flex; min-height: 100vh; }
+    .about { margin-left: 280px; flex: 1; padding: 40px; }
+    @media (max-width: 768px) {
+      .about { margin-left: 0; margin-top: 60px; padding: 20px; }
+    }
+  </style>
+
+  <!-- Accessibility enhancements -->
+  <meta name="theme-color" content="#000000" />
+  <meta name="msapplication-navbutton-color" content="#000000" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 </head>
-<body class="container">
-    <header class="drawer">
-      <nav class="drawer-body">
-        <a class="drawer-link" href="index.html">
+
+
+  <body class="container">
+    
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    
+    
+
+
+
+<header class="drawer">
+  <nav class="drawer-body" role="navigation" aria-label="Main navigation">
+    <a class="drawer-link " href="/index.html">
+      <span class="indicator">></span>
+      <span class="label">garmir.io</span>
+    </a>
+
+    <ul class="drawer-list shift">
+      
+      <li>
+        <a class="drawer-link " href="/posts.html">
           <span class="indicator"></span>
-          <span class="label">garmir.io</span>
+          <span class="label">posts</span>
         </a>
+      </li>
+      
+      <li>
+        <a class="drawer-link active" href="/projects.html">
+          <span class="indicator"></span>
+          <span class="label">projects</span>
+        </a>
+      </li>
+      
+      <li>
+        <a class="drawer-link " href="/pictures.html">
+          <span class="indicator"></span>
+          <span class="label">pictures</span>
+        </a>
+      </li>
+      
+    </ul>
 
-        <ul class="drawer-list shift">
-          <li>
-            <a class="drawer-link" href="posts.html">
-              <span class="indicator"></span>
-              <span class="label">posts</span>
-            </a>
-          </li>
-          <li>
-            <a class="drawer-link active" href="projects.html">
-              <span class="indicator">></span>
-              <span class="label">projects</span>
-            </a>
-          </li>
-          <li>
-            <a class="drawer-link" href="pictures.html">
-              <span class="indicator"></span>
-              <span class="label">pictures</span>
-            </a>
-          </li>
-        </ul>
+    <div class="drawer-footer">
+      <ul class="drawer-list">
+        
+        <li>
+          <a class="drawer-link" href="/garmir.io_directory/directory.html" >
+            <span class="indicator"></span>
+            <span class="label">directory</span>
+          </a>
+        </li>
+        
+        <li>
+          <a class="drawer-link" href="https://github.com/garmir/garmir.github.io/commits/main/" target="_blank" rel="noopener">
+            <span class="indicator"></span>
+            <span class="label">changelog</span>
+          </a>
+        </li>
+        
+        <li>
+          <a class="drawer-link" href="https://github.com/garmir" target="_blank" rel="noopener">
+            <span class="indicator"></span>
+            <span class="label">github</span>
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+</header>
 
-        <div class="drawer-footer">
-          <ul class="drawer-list">
-            <li>
-              <a class="drawer-link" href="garmir.io_directory/directory.html">
-                <span class="indicator"></span>
-                <span class="label">directory</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="drawer-link"
-                href="https://github.com/garmir/garmir.github.io/commits/main/"
-              >
-                <span class="indicator"></span>
-                <span class="label">changelog</span>
-              </a>
-            </li>
-            <li>
-              <a class="drawer-link" href="https://github.com/garmir">
-                <span class="indicator"></span>
-                <span class="label">github</span>
-              </a>
-            </li>
-          </ul>
+
+    
+    
+
+
+
+<header class="drawer-mobile">
+  <a class="drawer-link " href="/index.html">
+    <span class="indicator"></span>
+    <span class="label">garmir.io</span>
+  </a>
+  <a class="drawer-link" href="/garmir.io_directory/directory.html">
+    <span class="indicator"></span>
+    <span class="label">directory</span>
+  </a>
+  
+  <a class="drawer-link " href="/posts.html">
+    <span class="indicator"></span>
+    <span class="label">posts</span>
+  </a>
+  
+  <a class="drawer-link active" href="/projects.html">
+    <span class="indicator"></span>
+    <span class="label">projects</span>
+  </a>
+  
+  <a class="drawer-link " href="/pictures.html">
+    <span class="indicator"></span>
+    <span class="label">pictures</span>
+  </a>
+  
+</header>
+
+
+    <main class="about" role="main" id="main-content">
+      <div class="page-grid">
+        <div class="title-column"></div>
+        <div class="content-column">
+          
+<div class="sections-grid">
+  <section class="section">
+    <div class="ascii-header" role="img" aria-label="Section: projects">
+  <div aria-hidden="true">
+┌─────────────────────────────────────────────────────────────────┐
+│ projects                                                        │
+├─────────────────────────────────────────────────────────────────┤
+  </div>
+</div>
+    <div class="section-content">
+      <p>open source projects and technical experiments in systems programming, automation, and infrastructure.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="project-title">
+      <a href="https://github.com/garmir/globe" target="_blank" rel="noopener">garmir/globe</a>
+    </h3>
+    <div class="section-content">
+      <p>interactive terminal globe renderer written in rust. displays a rotating ascii globe with geographic coordinates and real-time positioning.</p>
+
+      <div class="globe-display">
+        <a href="https://github.com/garmir/globe" target="_blank" rel="noopener">
+          <img src="https://github.com/garmir/garmir/raw/main/globe.gif"
+               alt="garmir/globe - interactive terminal globe CLI application"
+               class="globe-image"
+               width="400"
+               height="400"
+               loading="eager">
+        </a>
+      </div>
+
+      <p><strong>tech stack:</strong> rust, terminal graphics, geographic data rendering</p>
+      <p><strong>features:</strong> real-time globe rotation, coordinate display, ascii art rendering, cross-platform cli</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="project-title">
+      <a href="garmir.io_directory/garmir.io_projects/superclaude-framework.html">superclaude framework</a>
+    </h3>
+    <div class="section-content">
+      <p>advanced ai automation framework with parallel processing capabilities, declarative configuration, and space-time tradeoff optimization.</p>
+      <p><strong>tech stack:</strong> nix, pure functional configuration, mcp servers, github actions</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="project-title">
+      <a href="garmir.io_directory/garmir.io_projects/testing-framework.html">testing framework</a>
+    </h3>
+    <div class="section-content">
+      <p>declarative testing methodology using pure nix expressions for reproducible, compliance-validated test suites.</p>
+      <p><strong>tech stack:</strong> nix, bash, automated validation</p>
+    </div>
+  </section>
+</div>
+
         </div>
-      </nav>
-    </header>
-
-    <header class="drawer-mobile">
-      <a class="drawer-link" href="index.html">
-        <span class="indicator"></span>
-        <span class="label">garmir.io</span>
-      </a>
-      <a class="drawer-link" href="garmir.io_directory/directory.html">
-        <span class="indicator"></span>
-        <span class="label">directory</span>
-      </a>
-      <a class="drawer-link" href="posts.html">
-        <span class="indicator"></span>
-        <span class="label">posts</span>
-      </a>
-      <a class="drawer-link active" href="projects.html">
-        <span class="indicator"></span>
-        <span class="label">projects</span>
-      </a>
-    </header>
-
-    <main class="about">
-        <div class="page-grid">
-            <div class="title-column"></div>
-            <div class="content-column">
-                <div class="sections-grid">
-                    <section class="section">
-                        <h2 class="section-title">projects</h2>
-                        <div class="section-content">
-                            <p>development work on automation frameworks, distributed systems, and community infrastructure.</p>
-                        </div>
-                    </section>
-
-                    <section class="section">
-                        <h2 class="section-title">current</h2>
-                        <div class="section-content">
-                            <ul>
-                                <li><strong>SuperClaude Framework</strong> - Advanced AI automation patterns with parallel processing capabilities</li>
-                                <li><strong>Community Infrastructure</strong> - Self-hosted alternatives and privacy-preserving technology stacks</li>
-                                <li><strong>Distributed Systems Research</strong> - Mesh networking and decentralized computing approaches</li>
-                                <li><strong>Workflow Automation</strong> - Development process optimization and testing frameworks</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <section class="section">
-                        <h2 class="section-title">technical focus</h2>
-                        <div class="section-content">
-                            <ul>
-                                <li>Agent automation and parallel processing optimization</li>
-                                <li>Privacy-first infrastructure design</li>
-                                <li>Community-owned technology platforms</li>
-                                <li>Performance optimization and scalability</li>
-                                <li>Open source development methodologies</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <section class="section">
-                        <h2 class="section-title">collaboration</h2>
-                        <div class="section-content">
-                            <p>interested in building technology that serves communities. open to collaboration on projects that prioritize privacy, sustainability, and mutual aid.</p>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
+      </div>
     </main>
-</body>
+
+    <!-- Simple site functionality -->
+    <script>
+      console.log('garmir.io loaded - visit github.com/garmir/globe for cli globe rendering');
+    </script>
+    
+    <script src="/assets/js/globe.min.js" defer></script>
+    
+  </body>
 </html>
