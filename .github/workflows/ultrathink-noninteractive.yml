@@ -1,0 +1,48 @@
+name: Ultrathink Non-Interactive
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/ultrathink-noninteractive.yml'
+
+jobs:
+  ultrathink:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup Framework
+        run: |
+          mkdir -p ~/.claude
+          cp -r .claude/CORE ~/.claude/
+          cp .claude/*.nix ~/.claude/ 2>/dev/null || true
+
+      - name: Execute Ultrathink
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd ~/.claude
+          nix-shell -p nodejs --run 'npx -y @anthropic-ai/claude-code --print "Analyze SuperClaude Framework compliance violations: repository language (Python vs Nix), git hygiene, framework separation. Use ultrathink with Sequential MCP for deep analysis."' > /tmp/analysis.txt
+
+      - name: Show Results
+        if: always()
+        run: |
+          echo "=== Analysis Output ==="
+          cat /tmp/analysis.txt || echo "No output"
+
+      - name: Save Results
+        if: always()
+        run: |
+          mkdir -p results
+          cp /tmp/analysis.txt results/ultrathink-${{ github.run_id }}.txt 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ultrathink-results-${{ github.run_id }}
+          path: results/
