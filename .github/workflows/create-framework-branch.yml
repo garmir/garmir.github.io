@@ -1,0 +1,108 @@
+name: Create SuperClaude Framework Branch (Remote-Only)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/create-framework-branch.yml'
+
+# Remote-Only Framework Isolation
+# Creates 'superclaude-framework' branch with ONLY framework files
+# Uses github.token (no PAT required)
+# ALL operations on GitHub Actions runner
+
+permissions:
+  contents: write
+
+jobs:
+  create-framework-branch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: "[1/6] Checkout Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ github.token }}
+
+      - name: "[2/6] Create Framework Branch"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "=== Creating superclaude-framework branch ==="
+
+          git config user.name "SuperClaude Framework"
+          git config user.email "noreply@anthropic.com"
+
+          git checkout -b superclaude-framework
+
+          echo "✅ Branch created"
+
+      - name: "[3/6] Remove Website Files"
+        run: |
+          echo "=== Removing website files (keep framework only) ==="
+
+          # Remove website-specific files
+          git rm -rf _site _includes _layouts _data css js *.html *.json package*.json .eleventy.js 2>/dev/null || true
+
+          # Remove non-framework workflows
+          find .github/workflows -name "*.yml" -not -name "create-framework-branch.yml" -delete 2>/dev/null || true
+
+          echo "✅ Website files removed"
+
+      - name: "[4/6] Move Framework to Root"
+        run: |
+          echo "=== Moving .claude framework to repository root ==="
+
+          # Move CORE to root
+          mv .claude/CORE . 2>/dev/null || true
+          mv .claude/agents . 2>/dev/null || true
+          mv .claude/commands . 2>/dev/null || true
+
+          # Move Nix files to root
+          mv .claude/*.nix . 2>/dev/null || true
+
+          # Move README
+          mv .claude/README.md . 2>/dev/null || true
+
+          # Remove .claude directory
+          rm -rf .claude
+
+          echo "✅ Framework moved to root"
+
+      - name: "[5/6] Commit Framework Structure"
+        run: |
+          echo "=== Committing framework ==="
+
+          echo "SuperClaude Framework v3.777" > /tmp/msg.txt
+          echo "" >> /tmp/msg.txt
+          echo "Pure Nix AI automation system isolated from website" >> /tmp/msg.txt
+
+          git add -A
+          git commit -F /tmp/msg.txt
+
+          echo "✅ Framework committed"
+
+      - name: "[6/6] Push Framework Branch"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "=== Pushing superclaude-framework branch ==="
+
+          git push origin superclaude-framework
+
+          echo ""
+          echo "╔═══════════════════════════════════════════════════════╗"
+          echo "║                                                       ║"
+          echo "║  ✅ SUPERCLAUDE FRAMEWORK BRANCH CREATED              ║"
+          echo "║                                                       ║"
+          echo "╚═══════════════════════════════════════════════════════╝"
+          echo ""
+          echo "Branch: superclaude-framework"
+          echo "View: https://github.com/garmir/garmir.github.io/tree/superclaude-framework"
+          echo "Files: Framework only (website removed)"
+          echo "Language: Nix (properly classified)"
+          echo ""
+          echo "All operations executed remotely on GitHub Actions runner."
