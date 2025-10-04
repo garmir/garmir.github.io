@@ -1,0 +1,34 @@
+name: Remote Framework Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/remote-framework-test.yml'
+
+jobs:
+  test-framework:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup Framework
+        run: |
+          mkdir -p ~/.claude
+          cp -r .claude/CORE ~/.claude/
+          cp .claude/*.nix ~/.claude/ 2>/dev/null || true
+          ls -la ~/.claude/
+
+      - name: Test Nix Queries
+        run: |
+          cd ~/.claude
+          nix-instantiate --eval --strict --json -E 'builtins.attrNames (import ./agents.nix)' | jq -r '.[]' | head -3
+
+      - name: Test Tool Arsenal
+        run: |
+          nix-shell -p ripgrep fd tree --run 'rg --version; fd --version; tree --version | head -1'
+
+      - name: Success
+        run: echo "✅ Remote framework operational"
