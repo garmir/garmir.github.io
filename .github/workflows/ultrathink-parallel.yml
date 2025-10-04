@@ -1,0 +1,111 @@
+name: Ultrathink Parallel Execution
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/ultrathink-parallel.yml'
+
+jobs:
+  # Coordinator: Setup and distribute analysis tasks
+  coordinator:
+    runs-on: ubuntu-latest
+    outputs:
+      tasks: ${{ steps.setup.outputs.tasks }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Define Analysis Tasks
+        id: setup
+        run: |
+          # Parallel analysis tasks (Williams pattern)
+          echo 'tasks=["compliance","architecture","security","performance"]' >> $GITHUB_OUTPUT
+
+  # Parallel ultrathink execution (4 concurrent analyses)
+  ultrathink-parallel:
+    needs: coordinator
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        task: ${{ fromJson(needs.coordinator.outputs.tasks) }}
+      max-parallel: 4
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup Framework
+        run: |
+          mkdir -p ~/.claude
+          cp -r .claude/CORE ~/.claude/
+          cp .claude/*.nix ~/.claude/ 2>/dev/null || true
+
+      - name: Execute Ultrathink ${{ matrix.task }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd ~/.claude
+
+          case "${{ matrix.task }}" in
+            "compliance")
+              PROMPT="Analyze SuperClaude compliance: repository language, git hygiene, framework separation"
+              ;;
+            "architecture")
+              PROMPT="Analyze SuperClaude architecture: Nix design, module structure, MCP integration"
+              ;;
+            "security")
+              PROMPT="Analyze SuperClaude security: credentials, exposed tokens, security patterns"
+              ;;
+            "performance")
+              PROMPT="Analyze SuperClaude performance: space-time tradeoffs, GitHub Actions scaling"
+              ;;
+          esac
+
+          nix-shell -p nodejs --run "npx -y @anthropic-ai/claude-code --print \"$PROMPT\"" > /tmp/analysis-${{ matrix.task }}.txt
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: ultrathink-${{ matrix.task }}-${{ github.run_id }}
+          path: /tmp/analysis-${{ matrix.task }}.txt
+
+  # Aggregator: Combine parallel results
+  aggregate:
+    needs: ultrathink-parallel
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download All Results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ultrathink-*-${{ github.run_id }}
+          path: /tmp/results
+
+      - name: Combine Results
+        run: |
+          mkdir -p aggregated
+          echo "# SuperClaude Ultrathink Analysis - Parallel Execution" > aggregated/combined-analysis.md
+          echo "" >> aggregated/combined-analysis.md
+          echo "Run ID: ${{ github.run_id }}" >> aggregated/combined-analysis.md
+          echo "Timestamp: $(date -u)" >> aggregated/combined-analysis.md
+          echo "" >> aggregated/combined-analysis.md
+
+          for analysis in /tmp/results/*/analysis-*.txt; do
+            if [ -f "$analysis" ]; then
+              echo "## $(basename $analysis .txt)" >> aggregated/combined-analysis.md
+              cat "$analysis" >> aggregated/combined-analysis.md
+              echo "" >> aggregated/combined-analysis.md
+            fi
+          done
+
+          cat aggregated/combined-analysis.md
+
+      - name: Upload Combined Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ultrathink-combined-${{ github.run_id }}
+          path: aggregated/
