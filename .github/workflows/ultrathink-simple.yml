@@ -27,7 +27,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          cd /home/a/.claude
+          cd $GITHUB_WORKSPACE
           nix-shell -p nodejs --run 'npx -y @anthropic-ai/claude-code "/sc:analyze --focus compliance --depth deep"'
 
       - name: Collect Results
