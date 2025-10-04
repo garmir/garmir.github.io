@@ -1,0 +1,91 @@
+name: Claude Code Expect Probe (255 Parallel Tests)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/claude-expect-probe-255.yml'
+
+jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Generate Test Matrix
+        id: gen
+        run: |
+          cd .claude
+          MATRIX=$(nix-instantiate --eval --strict --json expect-matrix.nix)
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+          echo "Generated $(echo $MATRIX | jq '. | length') configurations"
+
+  probe-claude:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        config: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      max-parallel: 255
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Test Config ${{ matrix.config.id }}
+        env:
+          ANTHROPIC_API_KEY: ${{ matrix.config.apiState == 'with-key' && secrets.ANTHROPIC_API_KEY || '' }}
+        run: |
+          export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
+
+          FLAG="${{ matrix.config.flag }}"
+          PROMPT="${{ matrix.config.prompt }}"
+          TIMEOUT="${{ matrix.config.timeout }}"
+
+          printf '#!/usr/bin/env expect\n' > /tmp/probe.exp
+          printf 'set timeout %s\n' "$TIMEOUT" >> /tmp/probe.exp
+          printf 'log_file /tmp/probe-%s.log\n' "${{ matrix.config.id }}" >> /tmp/probe.exp
+
+          if [ -n "$FLAG" ] && [ -n "$PROMPT" ]; then
+            printf 'spawn npx @anthropic-ai/claude-code %s "%s"\n' "$FLAG" "$PROMPT" >> /tmp/probe.exp
+          elif [ -n "$FLAG" ]; then
+            printf 'spawn npx @anthropic-ai/claude-code %s\n' "$FLAG" >> /tmp/probe.exp
+          else
+            printf 'spawn npx @anthropic-ai/claude-code\n' >> /tmp/probe.exp
+          fi
+
+          printf 'expect {\n' >> /tmp/probe.exp
+
+          case "${{ matrix.config.pattern }}" in
+            "basic")
+              printf '  -re {bypass} { send "2\\r"; exp_continue }\n' >> /tmp/probe.exp
+              ;;
+            "comprehensive")
+              printf '  -re {theme|Choose} { send "1\\r"; exp_continue }\n' >> /tmp/probe.exp
+              printf '  -re {API key|use this} { send "1\\r"; exp_continue }\n' >> /tmp/probe.exp
+              printf '  -re {analytics} { send "n\\r"; exp_continue }\n' >> /tmp/probe.exp
+              printf '  -re {bypass} { send "2\\r"; exp_continue }\n' >> /tmp/probe.exp
+              ;;
+            "catch-all")
+              printf '  -re {.} { exp_continue }\n' >> /tmp/probe.exp
+              ;;
+          esac
+
+          printf '  timeout { puts "TIMEOUT"; exit 0 }\n' >> /tmp/probe.exp
+          printf '  eof { puts "EOF"; exit 0 }\n' >> /tmp/probe.exp
+          printf '}\n' >> /tmp/probe.exp
+
+          nix-shell -p expect nodejs --run "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} expect /tmp/probe.exp" || echo "Test ${{ matrix.config.id }} complete"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: probe-${{ matrix.config.id }}
+          path: /tmp/probe-${{ matrix.config.id }}.log
+          retention-days: 7
