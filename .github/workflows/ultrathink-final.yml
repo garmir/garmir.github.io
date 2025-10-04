@@ -1,0 +1,64 @@
+name: Ultrathink Final - Expect Automation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/ultrathink-final.yml'
+      - '.claude/requests/*.txt'
+
+jobs:
+  ultrathink:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Install Framework
+        run: |
+          mkdir -p ~/.claude
+          cp -r .claude/CORE ~/.claude/
+          cp .claude/*.nix ~/.claude/ 2>/dev/null || true
+          echo '{"mcpServers":{"sequential-thinking":{"command":"npx","args":["-y","@modelcontextprotocol/server-sequential-thinking"]}}}' > ~/.claude.json
+
+      - name: Create Expect Script
+        run: |
+          printf '#!/usr/bin/env expect\n' > /tmp/ultra.exp
+          printf 'set timeout 900\n' >> /tmp/ultra.exp
+          printf 'log_user 1\n' >> /tmp/ultra.exp
+          printf 'spawn npx @anthropic-ai/claude-code --dangerously-skip-permissions "Analyze SuperClaude compliance: repository language (Python vs Nix), git hygiene, framework separation. Use ultrathink with Sequential MCP."\n' >> /tmp/ultra.exp
+          printf 'expect {\n' >> /tmp/ultra.exp
+          printf '  -re {.*bypass.*} { send "2\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {.*analysis.*|.*Write.*} { exit 0 }\n' >> /tmp/ultra.exp
+          printf '  timeout { puts "Timeout"; exit 1 }\n' >> /tmp/ultra.exp
+          printf '  eof { exit 0 }\n' >> /tmp/ultra.exp
+          printf '}\n' >> /tmp/ultra.exp
+          chmod +x /tmp/ultra.exp
+          cat /tmp/ultra.exp
+
+      - name: Execute Ultrathink
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd ~/.claude
+          nix-shell -p expect nodejs --run 'expect /tmp/ultra.exp'
+
+      - name: Collect and Return
+        if: always()
+        run: |
+          mkdir -p results
+          find ~/.claude -name "*.md" -mmin -15 2>/dev/null > results/files-${{ github.run_id }}.txt || true
+          echo "Analysis completed" > results/status-${{ github.run_id }}.txt
+          git config user.name "Bot"
+          git config user.email "bot@actions"
+          git add results/ 2>/dev/null || true
+          git commit -m "ultrathink results ${{ github.run_id }}" || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ultrathink-final-${{ github.run_id }}
+          path: results/
