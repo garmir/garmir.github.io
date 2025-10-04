@@ -1,0 +1,165 @@
+name: Ultrathink Remote Execution with Response
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/ultrathink-remote-execute.yml'
+      - 'requests/*.txt'
+
+# Bidirectional Communication Pattern:
+# 1. Local creates request file in requests/
+# 2. Push triggers this workflow
+# 3. Remote executes ultrathink analysis
+# 4. Results committed back to responses/
+# 5. Local pulls responses
+
+permissions:
+  contents: write
+
+jobs:
+  ultrathink-execute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: "[1/8] Checkout with Framework"
+        uses: actions/checkout@v4
+
+      - name: "[2/8] Install Nix"
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: "[3/8] Setup SuperClaude Framework"
+        run: |
+          echo "=== SuperClaude Framework Setup ==="
+
+          # Create framework structure
+          mkdir -p ~/.claude
+          cp -r .claude/CORE ~/.claude/
+          cp -r .claude/agents ~/.claude/ 2>/dev/null || true
+          cp -r .claude/commands ~/.claude/ 2>/dev/null || true
+          cp .claude/*.nix ~/.claude/ 2>/dev/null || true
+          cp CLAUDE.md ~/.claude/ 2>/dev/null || true
+
+          # Configure MCP servers
+          cat > ~/.claude.json << 'MCP'
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    }
+  }
+}
+MCP
+
+          echo "✅ Framework ready"
+
+      - name: "[4/8] Install Claude Code"
+        run: |
+          nix-shell -p nodejs npm --run 'npm install -g @anthropic-ai/claude-code'
+          nix-shell -p nodejs --run 'npx @anthropic-ai/claude-code --version'
+
+      - name: "[5/8] Read Request"
+        id: request
+        run: |
+          if [ -f requests/latest.txt ]; then
+            REQUEST=$(cat requests/latest.txt)
+            echo "request=$REQUEST" >> $GITHUB_OUTPUT
+            echo "Request: $REQUEST"
+          else
+            echo "request=Analyze repository compliance" >> $GITHUB_OUTPUT
+            echo "No request file, using default"
+          fi
+
+      - name: "[6/8] Execute Ultrathink Analysis"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "=== Executing Ultrathink Analysis ==="
+
+          cd ~/.claude
+
+          # Create analysis script
+          cat > /tmp/analyze.sh << 'SCRIPT'
+#!/usr/bin/env bash
+cd ~/.claude
+npx @anthropic-ai/claude-code << 'PROMPT'
+Execute deep ultrathink analysis:
+
+${{ steps.request.outputs.request }}
+
+Use Sequential MCP for systematic analysis.
+Save results to ~/analysis-results.md
+
+PROMPT
+SCRIPT
+
+          chmod +x /tmp/analyze.sh
+
+          # Execute with timeout
+          timeout 600 nix-shell -p nodejs bash --run '/tmp/analyze.sh' || echo "Analysis completed or timed out"
+
+          echo "✅ Analysis executed"
+
+      - name: "[7/8] Collect Response"
+        if: always()
+        run: |
+          echo "=== Collecting Analysis Results ==="
+
+          mkdir -p responses
+
+          # Find generated files
+          find ~ -name "*analysis*" -o -name "*report*" -type f -mmin -15 2>/dev/null > /tmp/found-files.txt || true
+
+          # Copy to responses directory
+          if [ -f ~/analysis-results.md ]; then
+            cp ~/analysis-results.md responses/ultrathink-response-${{ github.run_id }}.md
+          fi
+
+          # Create response summary
+          cat > responses/latest-response.md << 'RESPONSE'
+# Ultrathink Analysis Response
+
+Run ID: ${{ github.run_id }}
+Timestamp: $(date -u)
+Request: ${{ steps.request.outputs.request }}
+
+## Results
+
+$(cat ~/analysis-results.md 2>/dev/null || echo "Analysis in progress or no results generated")
+
+## Files Found
+
+$(cat /tmp/found-files.txt 2>/dev/null || echo "No additional files")
+
+RESPONSE
+
+          echo "✅ Response collected"
+
+      - name: "[8/8] Commit Response Back"
+        run: |
+          echo "=== Committing response to repository ==="
+
+          git config user.name "SuperClaude Remote"
+          git config user.email "superclaude@actions.github"
+
+          git add responses/
+          git commit -m "ultrathink: response from run ${{ github.run_id }}" || echo "No changes to commit"
+          git push origin main || echo "Push failed or no changes"
+
+          echo ""
+          echo "✅ Bidirectional communication complete"
+          echo "Response available in responses/ directory"
+
+      - name: Upload Analysis Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ultrathink-analysis-${{ github.run_id }}
+          path: |
+            responses/
+            ~/analysis-results.md
+            /tmp/found-files.txt
+          retention-days: 30

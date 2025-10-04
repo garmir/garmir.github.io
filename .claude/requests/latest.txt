@@ -1,0 +1,17 @@
+Analyze SuperClaude Framework compliance violations using ultrathink mode:
+
+1. Repository language classification (Python vs Nix mismatch)
+2. Git hygiene and 92 untracked framework files
+3. Shell script cleanup status (7 deleted .sh files)
+4. Qwen3 directory integration approach
+5. Framework separation from garmir.github.io website
+6. Remote execution capability validation
+
+Provide comprehensive remediation strategy with:
+- Priority levels (Critical/High/Medium/Low)
+- Actionable steps for each violation
+- Performance impact analysis
+- Resource requirements
+- Timeline estimates
+
+Use Sequential MCP for deep systematic analysis.
