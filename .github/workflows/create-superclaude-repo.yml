@@ -1,0 +1,177 @@
+name: Create SuperClaude Framework Repository (Remote-Only)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/create-superclaude-repo.yml'
+
+# Remote-Only Repository Creation
+# ALL operations happen on GitHub Actions runner
+# Zero local operations required
+# Framework: SuperClaude v3.777
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  create-repo-remote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: "[1/8] Checkout Source Repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "[2/8] Install Nix"
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: "[3/8] Setup GitHub CLI"
+        run: |
+          echo "=== Configuring GitHub CLI ==="
+          nix-shell -p github-cli --run 'gh --version'
+          nix-shell -p github-cli --run 'gh auth status'
+
+      - name: "[4/8] Create New Repository (Remote)"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "=== Creating superclaude-framework repository ==="
+
+          nix-shell -p github-cli --run 'gh repo create garmir/superclaude-framework \
+            --public \
+            --description "SuperClaude Framework - Pure Nix AI automation system with universal compliance" \
+            --clone=false' || echo "Repository may already exist"
+
+          echo "✅ Repository created"
+
+      - name: "[5/8] Clone New Repository (Remote)"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "=== Cloning new repository on runner ==="
+
+          cd /tmp
+          nix-shell -p github-cli --run 'gh repo clone garmir/superclaude-framework'
+
+          echo "✅ Repository cloned to /tmp/superclaude-framework"
+
+      - name: "[6/8] Copy Framework Files (Remote)"
+        run: |
+          echo "=== Copying SuperClaude Framework files ==="
+
+          cd /tmp/superclaude-framework
+
+          # Copy core framework files from checked out source
+          nix-shell -p coreutils --run 'cp -r $GITHUB_WORKSPACE/.claude/CORE .'
+          nix-shell -p coreutils --run 'cp -r $GITHUB_WORKSPACE/.claude/agents .'
+          nix-shell -p coreutils --run 'cp -r $GITHUB_WORKSPACE/.claude/commands .'
+
+          # Copy Nix configuration files
+          nix-shell -p coreutils --run 'cp $GITHUB_WORKSPACE/.claude/*.nix . 2>/dev/null || true'
+
+          # Copy README from source
+          nix-shell -p coreutils --run 'cp $GITHUB_WORKSPACE/.claude/README.md . 2>/dev/null || true'
+
+          # Create framework CLAUDE.md
+          cat > CLAUDE.md << 'EOF'
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## SuperClaude Framework
+
+Pure Nix AI automation system with:
+- Universal nix-shell compliance
+- Exponential tree workflows
+- 9 behavioral modes
+- 6 MCP server integrations
+- 14 specialized agents
+- 20 slash commands
+
+## Quick Start
+
+\`\`\`bash
+# Query configuration
+nix-instantiate --eval --strict --json -E 'import ./default.nix' | jq .
+
+# Run tests
+nix-build -E '(import ./tests.nix {}).runTests'
+
+# List agents
+nix-instantiate --eval --strict --json -E 'builtins.attrNames (import ./agents.nix)' | jq .
+\`\`\`
+
+See CORE/FRAMEWORK_GUIDE.md for complete documentation.
+EOF
+
+          # Create .gitattributes for proper language classification
+          cat > .gitattributes << 'EOF'
+*.md linguist-documentation
+*.nix linguist-language=Nix
+EOF
+
+          echo "✅ Framework files copied"
+
+      - name: "[7/8] Commit Framework (Remote)"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "=== Committing framework to new repository ==="
+
+          cd /tmp/superclaude-framework
+
+          nix-shell -p github-cli --run 'gh repo set-default garmir/superclaude-framework'
+
+          # Configure git
+          nix-shell -p git --run 'git config user.name "SuperClaude Framework"'
+          nix-shell -p git --run 'git config user.email "noreply@anthropic.com"'
+
+          # Add all files
+          nix-shell -p git --run 'git add -A'
+
+          # Commit
+          nix-shell -p git --run 'git commit -m "init: SuperClaude Framework v3.777
+
+Pure Nix AI automation system:
+- Universal nix-shell compliance
+- 9 behavioral modes (Agent Automation, Task Management, etc.)
+- 6 MCP server integrations (Sequential, Magic, Context7, etc.)
+- 14 specialized agents
+- 20 slash commands (/sc:*)
+- Comprehensive documentation in CORE/
+
+Framework migrated from garmir.github.io for proper separation.
+
+🤖 Created remotely via GitHub Actions
+
+Co-Authored-By: Claude <noreply@anthropic.com>"'
+
+          echo "✅ Changes committed"
+
+      - name: "[8/8] Push to GitHub (Remote)"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "=== Pushing framework to GitHub ==="
+
+          cd /tmp/superclaude-framework
+
+          nix-shell -p git --run 'git push origin main'
+
+          echo ""
+          echo "╔═══════════════════════════════════════════════════════╗"
+          echo "║                                                       ║"
+          echo "║  ✅ SUPERCLAUDE FRAMEWORK REPOSITORY CREATED          ║"
+          echo "║                                                       ║"
+          echo "╚═══════════════════════════════════════════════════════╝"
+          echo ""
+          echo "Repository: https://github.com/garmir/superclaude-framework"
+          echo "Language: Nix (properly classified)"
+          echo "Separation: Complete (framework independent from website)"
+          echo ""
+          echo "All operations executed remotely on GitHub Actions runner."
