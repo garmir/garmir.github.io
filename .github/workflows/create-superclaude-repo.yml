@@ -100,25 +100,16 @@ jobs:
           nix-shell -p git --run 'git config user.name "SuperClaude Framework"'
           nix-shell -p git --run 'git config user.email "noreply@anthropic.com"'
 
-          # Add all files
+          # Create commit message file
+          echo "init: SuperClaude Framework v3.777" > /tmp/commit-msg.txt
+          echo "" >> /tmp/commit-msg.txt
+          echo "Pure Nix AI automation system" >> /tmp/commit-msg.txt
+          echo "" >> /tmp/commit-msg.txt
+          echo "Framework migrated from garmir.github.io" >> /tmp/commit-msg.txt
+
+          # Add and commit
           nix-shell -p git --run 'git add -A'
-
-          # Commit
-          nix-shell -p git --run 'git commit -m "init: SuperClaude Framework v3.777
-
-Pure Nix AI automation system:
-- Universal nix-shell compliance
-- 9 behavioral modes (Agent Automation, Task Management, etc.)
-- 6 MCP server integrations (Sequential, Magic, Context7, etc.)
-- 14 specialized agents
-- 20 slash commands (/sc:*)
-- Comprehensive documentation in CORE/
-
-Framework migrated from garmir.github.io for proper separation.
-
-🤖 Created remotely via GitHub Actions
-
-Co-Authored-By: Claude <noreply@anthropic.com>"'
+          nix-shell -p git --run 'git commit -F /tmp/commit-msg.txt'
 
           echo "✅ Changes committed"
 
