@@ -62,60 +62,73 @@ jobs:
       # PHASE 2: ULTRATHINK EXECUTION
       # ============================================
 
-      - name: "[4/6] Execute Ultrathink Analysis"
+      - name: "[4a/7] Create Analysis Prompt"
+        run: |
+          echo "=== Creating Analysis Prompt ==="
+
+          cat > /tmp/analysis-prompt.txt << 'PROMPT_EOF'
+          Analyze SuperClaude Framework compliance violations using --ultrathink mode.
+
+          Focus areas:
+          1. Repository language classification (Python vs Nix mismatch)
+          2. Shell script cleanup status (deleted .sh files)
+          3. Untracked framework files (Qwen3/, CORE files)
+          4. Git hygiene and separation of concerns
+          5. Repository identity (website vs framework)
+
+          Provide comprehensive remediation strategy with priority levels and actionable steps.
+
+          Use deep reasoning with Sequential MCP for systematic analysis.
+          PROMPT_EOF
+
+          echo "Prompt created successfully"
+
+      - name: "[4b/7] Create Expect Automation Script"
+        run: |
+          echo "=== Creating Expect Script ==="
+
+          cat > /tmp/ultrathink.exp << 'EXPECT_EOF'
+          #!/usr/bin/env expect
+          set timeout 900
+          log_user 1
+
+          set prompt [exec cat /tmp/analysis-prompt.txt]
+
+          spawn npx @anthropic-ai/claude-code --dangerously-skip-permissions $prompt
+
+          expect {
+            -re {.*bypass permissions.*} {
+              send "2\r"
+              exp_continue
+            }
+            -re {.*Write.*|.*analysis.*|.*report.*|.*complete.*} {
+              puts "\n=== Ultrathink analysis completed ==="
+              exit 0
+            }
+            timeout {
+              puts "\n=== Analysis timeout after 900s ==="
+              exit 1
+            }
+            eof {
+              puts "\n=== Analysis finished ==="
+              exit 0
+            }
+          }
+          EXPECT_EOF
+
+          chmod +x /tmp/ultrathink.exp
+          echo "Expect script created"
+
+      - name: "[4c/7] Execute Ultrathink Analysis"
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           echo "=== Launching Ultrathink Analysis ==="
           echo "Focus: ${{ github.event.inputs.analysis_focus }}"
-          echo "Timeout: ${ANALYSIS_TIMEOUT}s"
           echo ""
 
-          cd $GITHUB_WORKSPACE
-
-          # Define analysis task based on input
-          case "${{ github.event.inputs.analysis_focus }}" in
-            "compliance-violations")
-              TASK="Analyze SuperClaude Framework compliance violations using --ultrathink mode. Focus on: 1) Repository language classification (Python vs Nix mismatch), 2) Shell script cleanup status (7 deleted .sh files), 3) Untracked framework files (92 items including Qwen3/), 4) Git hygiene and separation of concerns. Provide comprehensive remediation strategy with priority levels."
-              ;;
-            "architecture-review")
-              TASK="Perform comprehensive architecture review using --ultrathink mode. Analyze: 1) Nix configuration design (17 .nix files), 2) Module separation and dependencies, 3) MCP server integration patterns, 4) Agent orchestration architecture, 5) Performance optimization strategies. Identify architectural debt and improvement opportunities."
-              ;;
-            "security-assessment")
-              TASK="Execute deep security assessment using --ultrathink mode. Review: 1) Exposed credentials in git config, 2) Penetration testing artifacts in repository, 3) API key handling patterns, 4) Permission bypass mechanisms (--dangerously-skip-permissions), 5) Network research tool security. Classify risks and provide mitigation strategies."
-              ;;
-            "performance-optimization")
-              TASK="Analyze performance optimization opportunities using --ultrathink mode. Examine: 1) Nix evaluation performance (777 iterations claim), 2) Tool batching strategies, 3) Parallel execution patterns, 4) Space-time tradeoff implementations, 5) GitHub Actions scaling limits. Recommend concrete optimizations."
-              ;;
-          esac
-
-          # Execute ultrathink with NPX spawning
-          cd ~ && nix-shell -p nodejs expect ripgrep fd tree jq --run "expect -c \"
-            set timeout ${ANALYSIS_TIMEOUT}
-
-            log_user 1
-
-            spawn npx @anthropic-ai/claude-code --dangerously-skip-permissions \\\"\$TASK\\\"
-
-            expect {
-              -re {.*bypass permissions.*} {
-                send \\\"2\\\r\\\"
-                exp_continue
-              }
-              -re {.*Write.*|.*analysis.*|.*report.*|.*complete.*} {
-                puts \\\"✅ Ultrathink analysis completed\\\"
-                exit 0
-              }
-              timeout {
-                puts \\\"⚠️  Analysis timeout after ${ANALYSIS_TIMEOUT}s\\\"
-                exit 1
-              }
-              eof {
-                puts \\\"✅ Analysis finished\\\"
-                exit 0
-              }
-            }
-          \""
+          cd ~
+          nix-shell -p nodejs expect --run 'expect /tmp/ultrathink.exp'
 
           echo ""
           echo "=== Analysis Execution Complete ==="
@@ -124,7 +137,7 @@ jobs:
       # PHASE 3: ARTIFACT COLLECTION
       # ============================================
 
-      - name: "[5/6] Collect Analysis Results"
+      - name: "[5/7] Collect Analysis Results"
         if: always()
         run: |
           echo "=== Collecting Analysis Artifacts ==="
@@ -162,7 +175,7 @@ EOF
 
           echo "Artifacts collected"
 
-      - name: "[6/6] Upload Analysis Results"
+      - name: "[6/7] Upload Analysis Results"
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -176,7 +189,7 @@ EOF
       # COMPLETION SUMMARY
       # ============================================
 
-      - name: "Analysis Complete"
+      - name: "[7/7] Analysis Complete"
         if: success()
         run: |
           echo ""
