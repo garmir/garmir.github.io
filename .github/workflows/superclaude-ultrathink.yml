@@ -1,6 +1,14 @@
 name: Ultrathink Compliance Analysis
 
 on:
+  # Auto-trigger on framework file changes
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/superclaude-ultrathink.yml'
+
+  # Manual trigger (when GitHub cache refreshes)
   workflow_dispatch:
     inputs:
       analysis_focus:
