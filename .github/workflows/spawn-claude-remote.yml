@@ -1,0 +1,97 @@
+name: Spawn Claude Code Remote Sessions
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/spawn-claude-remote.yml'
+
+jobs:
+  spawn-sessions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      matrix:
+        analysis: [compliance, architecture, security, performance]
+      max-parallel: 4
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup Framework
+        run: |
+          mkdir -p ~/.claude ~/.config/claude-code
+          cp -r .claude/CORE ~/.claude/
+          cp .claude/*.nix ~/.claude/ 2>/dev/null || true
+          echo '{"mcpServers":{"sequential-thinking":{"command":"npx","args":["-y","@modelcontextprotocol/server-sequential-thinking"]}}}' > ~/.claude.json
+
+      - name: Pre-Initialize Claude Code
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
+
+          printf '#!/usr/bin/env expect\n' > /tmp/init.exp
+          printf 'set timeout 120\n' >> /tmp/init.exp
+          printf 'spawn npx @anthropic-ai/claude-code --version\n' >> /tmp/init.exp
+          printf 'expect {\n' >> /tmp/init.exp
+          printf '  -re {theme|Choose} { send "1\\r"; exp_continue }\n' >> /tmp/init.exp
+          printf '  -re {API key|use this} { send "1\\r"; exp_continue }\n' >> /tmp/init.exp
+          printf '  -re {analytics} { send "n\\r"; exp_continue }\n' >> /tmp/init.exp
+          printf '  timeout { exit 0 }\n' >> /tmp/init.exp
+          printf '  eof { exit 0 }\n' >> /tmp/init.exp
+          printf '}\n' >> /tmp/init.exp
+
+          nix-shell -p expect nodejs --run "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} expect /tmp/init.exp" || echo "Init complete"
+
+      - name: Spawn Claude Code Session for ${{ matrix.analysis }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
+          cd ~/.claude
+
+          case "${{ matrix.analysis }}" in
+            "compliance")
+              ANALYSIS="Analyze repository compliance violations: Python vs Nix language, git hygiene, 92 untracked files, shell script cleanup. Use Sequential MCP."
+              ;;
+            "architecture")
+              ANALYSIS="Analyze framework architecture: 17 Nix files, module dependencies, CORE structure, agent system. Use Sequential MCP."
+              ;;
+            "security")
+              ANALYSIS="Analyze security posture: exposed tokens in git history, credential handling, API key rotation. Use Sequential MCP."
+              ;;
+            "performance")
+              ANALYSIS="Analyze performance patterns: space-time tradeoffs, parallel execution, GitHub Actions scaling. Use Sequential MCP."
+              ;;
+          esac
+
+          printf '#!/usr/bin/env expect\n' > /tmp/spawn.exp
+          printf 'set timeout 600\n' >> /tmp/spawn.exp
+          printf 'log_file /tmp/spawn-${{ matrix.analysis }}.log\n' >> /tmp/spawn.exp
+          printf 'spawn npx @anthropic-ai/claude-code --continue\n' >> /tmp/spawn.exp
+          printf 'expect "> "\n' >> /tmp/spawn.exp
+          printf 'send "%s\\r"\n' "$ANALYSIS" >> /tmp/spawn.exp
+          printf 'expect {\n' >> /tmp/spawn.exp
+          printf '  -re {Write|write|created|saved} { exit 0 }\n' >> /tmp/spawn.exp
+          printf '  timeout { exit 0 }\n' >> /tmp/spawn.exp
+          printf '  eof { exit 0 }\n' >> /tmp/spawn.exp
+          printf '}\n' >> /tmp/spawn.exp
+
+          nix-shell -p expect nodejs --run "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} expect /tmp/spawn.exp" || echo "Session complete"
+
+      - name: Collect Results
+        if: always()
+        run: |
+          mkdir -p results
+          cp /tmp/spawn-${{ matrix.analysis }}.log results/ 2>/dev/null || echo "No log"
+          find ~/.claude -name "*.md" -mmin -10 2>/dev/null | xargs -I {} cp {} results/ 2>/dev/null || true
+          ls -la results/
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spawn-${{ matrix.analysis }}-${{ github.run_id }}
+          path: results/
