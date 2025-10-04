@@ -45,6 +45,14 @@ shell-snapshots/
 settings.json
 .claude.json
 
+# Credentials (NEVER commit)
+.credentials.json
+*.pem
+*.key
+*_key
+*_secret
+*.token
+
 # Build Artifacts
 .DS_Store
 *.swp
