@@ -1,0 +1,37 @@
+name: Ultrathink Test - Minimal
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/ultrathink-test.yml'
+
+jobs:
+  test-basic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Test Nix Tools
+        run: |
+          nix-shell -p bash --run 'echo "Nix works"'
+          nix-shell -p nodejs --run 'node --version'
+          nix-shell -p expect --run 'expect -version'
+
+      - name: Create Simple Expect Script
+        run: |
+          cat > /tmp/test.exp << 'EOF'
+#!/usr/bin/env expect
+puts "Expect script works"
+exit 0
+EOF
+          chmod +x /tmp/test.exp
+
+      - name: Run Expect Script
+        run: |
+          nix-shell -p expect --run 'expect /tmp/test.exp'
+
+      - name: Success
+        run: echo "✅ Basic workflow structure validated"
