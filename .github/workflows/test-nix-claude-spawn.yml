@@ -1,0 +1,55 @@
+name: Test Nix Claude Spawn
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/test-nix-claude-spawn.yml'
+
+jobs:
+  test-spawn:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Test Direct NPX Claude
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "Test 1: Direct npx (no nix-shell)"
+          export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
+          npx -y @anthropic-ai/claude-code --version || echo "Direct npx failed"
+
+      - name: Test Via Nix-Shell
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "Test 2: Via nix-shell"
+          export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
+          nix-shell -p nodejs --run 'npx -y @anthropic-ai/claude-code --version' || echo "Nix-shell npx failed"
+
+      - name: Test Expect Spawn in Nix-Shell
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "Test 3: Expect automation in nix-shell"
+          export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
+
+          printf '#!/usr/bin/env expect\n' > /tmp/test.exp
+          printf 'set timeout 30\n' >> /tmp/test.exp
+          printf 'log_file /tmp/test.log\n' >> /tmp/test.exp
+          printf 'spawn npx -y @anthropic-ai/claude-code --version\n' >> /tmp/test.exp
+          printf 'expect eof\n' >> /tmp/test.exp
+
+          nix-shell -p expect nodejs --run "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} expect /tmp/test.exp" || echo "Expect in nix-shell completed"
+
+          echo "=== Expect Log ==="
+          cat /tmp/test.log
+
+      - name: Results
+        if: always()
+        run: echo "All spawn tests complete"
