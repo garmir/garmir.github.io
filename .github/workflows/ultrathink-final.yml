@@ -26,11 +26,11 @@ jobs:
 
       - name: Create Prompt File
         run: |
-          mkdir -p ~/.claude
-          printf 'Analyze SuperClaude Framework compliance violations.\n' > ~/.claude/prompt.txt
-          printf 'Focus: repository language classification, git hygiene, framework separation.\n' >> ~/.claude/prompt.txt
-          printf 'Use deep analysis with Sequential MCP.\n' >> ~/.claude/prompt.txt
-          cat ~/.claude/prompt.txt
+          mkdir -p /tmp/ultrathink
+          printf 'Analyze SuperClaude Framework compliance violations.\n' > /tmp/ultrathink/prompt.txt
+          printf 'Focus: repository language classification, git hygiene, framework separation.\n' >> /tmp/ultrathink/prompt.txt
+          printf 'Use deep analysis with Sequential MCP.\n' >> /tmp/ultrathink/prompt.txt
+          cat /tmp/ultrathink/prompt.txt
 
       - name: Create Expect Script
         run: |
@@ -39,7 +39,7 @@ jobs:
           printf 'log_user 1\n' >> /tmp/ultra.exp
           printf 'log_file /tmp/expect-debug.log\n' >> /tmp/ultra.exp
           printf '\n' >> /tmp/ultra.exp
-          printf 'set prompt [exec cat ~/.claude/prompt.txt]\n' >> /tmp/ultra.exp
+          printf 'set prompt [exec cat /tmp/ultrathink/prompt.txt]\n' >> /tmp/ultra.exp
           printf '\n' >> /tmp/ultra.exp
           printf 'spawn npx @anthropic-ai/claude-code --dangerously-skip-permissions $prompt\n' >> /tmp/ultra.exp
           printf '\n' >> /tmp/ultra.exp
