@@ -44,15 +44,17 @@ jobs:
           printf 'spawn npx @anthropic-ai/claude-code --dangerously-skip-permissions $prompt\n' >> /tmp/ultra.exp
           printf '\n' >> /tmp/ultra.exp
           printf 'expect {\n' >> /tmp/ultra.exp
-          printf '  -re {theme|style|Choose|Dark mode} { send "1\\r"; exp_continue }\n' >> /tmp/ultra.exp
-          printf '  -re {API key|api key|use this} { send "1\\r"; exp_continue }\n' >> /tmp/ultra.exp
-          printf '  -re {analytics|Analytics} { send "n\\r"; exp_continue }\n' >> /tmp/ultra.exp
-          printf '  -re {welcome|Welcome|started} { send "\\r"; exp_continue }\n' >> /tmp/ultra.exp
-          printf '  -re {initialize|Initialize} { send "y\\r"; exp_continue }\n' >> /tmp/ultra.exp
-          printf '  -re {bypass|permissions|Bypass} { send "2\\r"; exp_continue }\n' >> /tmp/ultra.exp
-          printf '  -re {analysis|Write|complete} { puts "\\nSuccess"; exit 0 }\n' >> /tmp/ultra.exp
-          printf '  timeout { puts "\\nTimeout"; exit 1 }\n' >> /tmp/ultra.exp
-          printf '  eof { puts "\\nEOF"; exit 0 }\n' >> /tmp/ultra.exp
+          printf '  -re {theme|style|Choose|Dark mode|Light mode} { send "1\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {API key|api key|use this|Detected a custom} { send "1\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {analytics|Analytics|telemetry} { send "n\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {welcome|Welcome|started|get started|Let} { send "\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {directory|workspace|project} { send "\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {initialize|Initialize|setup|Setup} { send "y\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {bypass|permissions|Bypass|allow|Allow} { send "2\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {Continue|continue|Proceed|proceed} { send "\\r"; exp_continue }\n' >> /tmp/ultra.exp
+          printf '  -re {.} { exp_continue }\n' >> /tmp/ultra.exp
+          printf '  timeout { puts "\\nTimeout after 900s"; exit 1 }\n' >> /tmp/ultra.exp
+          printf '  eof { puts "\\nProcess completed"; exit 0 }\n' >> /tmp/ultra.exp
           printf '}\n' >> /tmp/ultra.exp
           chmod +x /tmp/ultra.exp
           cat /tmp/ultra.exp
