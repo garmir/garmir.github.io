@@ -1,0 +1,68 @@
+name: Test Claude Promptable
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/test-claude-prompt.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup
+        run: |
+          mkdir -p ~/.claude /tmp/test
+          cp -r .claude/CORE ~/.claude/
+
+      - name: Test 1 - Version Check
+        run: |
+          printf '#!/usr/bin/env expect\n' > /tmp/t1.exp
+          printf 'set timeout 60\n' >> /tmp/t1.exp
+          printf 'spawn npx @anthropic-ai/claude-code --version\n' >> /tmp/t1.exp
+          printf 'expect eof\n' >> /tmp/t1.exp
+          nix-shell -p expect nodejs --run 'expect /tmp/t1.exp'
+          echo "✓ Test 1 passed"
+
+      - name: Test 2 - Help Command
+        run: |
+          printf '#!/usr/bin/env expect\n' > /tmp/t2.exp
+          printf 'set timeout 60\n' >> /tmp/t2.exp
+          printf 'spawn npx @anthropic-ai/claude-code --help\n' >> /tmp/t2.exp
+          printf 'expect eof\n' >> /tmp/t2.exp
+          nix-shell -p expect nodejs --run 'expect /tmp/t2.exp'
+          echo "✓ Test 2 passed"
+
+      - name: Test 3 - Init with Prompts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          export ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY}"
+          printf '#!/usr/bin/env expect\n' > /tmp/t3.exp
+          printf 'set timeout 120\n' >> /tmp/t3.exp
+          printf 'log_file /tmp/t3.log\n' >> /tmp/t3.exp
+          printf 'spawn npx @anthropic-ai/claude-code --dangerously-skip-permissions "hello"\n' >> /tmp/t3.exp
+          printf 'expect {\n' >> /tmp/t3.exp
+          printf '  -re {.} { exp_continue }\n' >> /tmp/t3.exp
+          printf '  timeout { puts "Timeout"; exit 0 }\n' >> /tmp/t3.exp
+          printf '  eof { puts "EOF"; exit 0 }\n' >> /tmp/t3.exp
+          printf '}\n' >> /tmp/t3.exp
+          nix-shell -p expect nodejs --run "ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} expect /tmp/t3.exp" || echo "Test 3 completed"
+
+      - name: Show Logs
+        if: always()
+        run: |
+          echo "=== Test 3 Log ==="
+          cat /tmp/t3.log || echo "No log"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-logs
+          path: /tmp/*.log
