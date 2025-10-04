@@ -77,43 +77,12 @@ jobs:
           # Copy README from source
           nix-shell -p coreutils --run 'cp $GITHUB_WORKSPACE/.claude/README.md . 2>/dev/null || true'
 
-          # Create framework CLAUDE.md
-          cat > CLAUDE.md << 'EOF'
-# CLAUDE.md
+          # Copy CLAUDE.md from source
+          nix-shell -p coreutils --run 'cp $GITHUB_WORKSPACE/CLAUDE.md . 2>/dev/null || echo "No CLAUDE.md in source"'
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## SuperClaude Framework
-
-Pure Nix AI automation system with:
-- Universal nix-shell compliance
-- Exponential tree workflows
-- 9 behavioral modes
-- 6 MCP server integrations
-- 14 specialized agents
-- 20 slash commands
-
-## Quick Start
-
-\`\`\`bash
-# Query configuration
-nix-instantiate --eval --strict --json -E 'import ./default.nix' | jq .
-
-# Run tests
-nix-build -E '(import ./tests.nix {}).runTests'
-
-# List agents
-nix-instantiate --eval --strict --json -E 'builtins.attrNames (import ./agents.nix)' | jq .
-\`\`\`
-
-See CORE/FRAMEWORK_GUIDE.md for complete documentation.
-EOF
-
-          # Create .gitattributes for proper language classification
-          cat > .gitattributes << 'EOF'
-*.md linguist-documentation
-*.nix linguist-language=Nix
-EOF
+          # Create simple .gitattributes
+          echo "*.md linguist-documentation" > .gitattributes
+          echo "*.nix linguist-language=Nix" >> .gitattributes
 
           echo "✅ Framework files copied"
 
