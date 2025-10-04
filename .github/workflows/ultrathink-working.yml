@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Claude Code
         run: |
-          nix-shell -p nodejs npm --run 'npm install -g @anthropic-ai/claude-code'
+          nix-shell -p nodejs nodePackages.npm --run 'npm install -g @anthropic-ai/claude-code'
 
       - name: Read Request
         run: |
@@ -57,12 +57,14 @@ jobs:
 
       - name: Commit Response
         if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "SuperClaude"
           git config user.email "superclaude@actions"
           git add responses/ 2>/dev/null || true
           git commit -m "response: ultrathink run ${{ github.run_id }}" 2>/dev/null || echo "No response"
-          git push origin main 2>/dev/null || echo "No changes"
+          git push https://x-access-token:$GH_TOKEN@github.com/garmir/garmir.github.io.git main 2>/dev/null || echo "No changes"
 
       - uses: actions/upload-artifact@v4
         if: always()
