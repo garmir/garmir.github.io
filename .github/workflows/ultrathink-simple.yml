@@ -19,16 +19,29 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Run Ultrathink Analysis
+      - name: Create Analysis Script
+        run: |
+          cat > /tmp/run-ultrathink.sh << 'EOF'
+#!/usr/bin/env bash
+cd /home/a/.claude
+npx -y @anthropic-ai/claude-code --continue << 'PROMPT'
+Analyze SuperClaude Framework compliance:
+1. Repository language (Python vs Nix)
+2. Git hygiene (untracked files)
+3. Shell script cleanup
+4. Qwen3 integration
+Use --ultrathink for deep analysis.
+PROMPT
+EOF
+          chmod +x /tmp/run-ultrathink.sh
+
+      - name: Execute Ultrathink
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          echo "=== Ultrathink Compliance Analysis ==="
+          nix-shell -p nodejs bash --run '/tmp/run-ultrathink.sh'
 
-          cd ~
-          nix-shell -p nodejs --run 'npx -y @anthropic-ai/claude-code --version'
-
-          echo "✅ Ultrathink environment ready"
-
-      - name: Complete
-        run: echo "Workflow structure validated"
+      - name: Collect Results
+        if: always()
+        run: |
+          find /home/a/.claude -name "*analysis*" -o -name "*report*" -mmin -15 2>/dev/null || echo "No reports found"
