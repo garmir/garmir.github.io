@@ -31,6 +31,8 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@main
 
       - name: "[3/8] Setup GitHub CLI"
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "=== Configuring GitHub CLI ==="
           nix-shell -p github-cli --run 'gh --version'
@@ -52,6 +54,7 @@ jobs:
       - name: "[5/8] Clone New Repository (Remote)"
         env:
           GH_TOKEN: ${{ github.token }}
+          GIT_TERMINAL_PROMPT: '0'
         run: |
           echo "=== Cloning new repository on runner ==="
 
@@ -89,6 +92,7 @@ jobs:
       - name: "[7/8] Commit Framework (Remote)"
         env:
           GH_TOKEN: ${{ github.token }}
+          GIT_TERMINAL_PROMPT: '0'
         run: |
           echo "=== Committing framework to new repository ==="
 
@@ -116,6 +120,7 @@ jobs:
       - name: "[8/8] Push to GitHub (Remote)"
         env:
           GH_TOKEN: ${{ github.token }}
+          GIT_TERMINAL_PROMPT: '0'
         run: |
           echo "=== Pushing framework to GitHub ==="
 
