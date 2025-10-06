@@ -4,7 +4,7 @@
 
   <body class="container">
     {# Skip to main content link for accessibility #}
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
     {# Desktop navigation sidebar #}
     {% include "drawer-desktop.njk" %}
@@ -25,6 +25,7 @@
     <script>
       console.log('garmir.io loaded - visit github.com/garmir/globe for cli globe rendering');
     </script>
+    <script src="/assets/js/mobile-menu.js"></script>
     {% if globeEnabled %}
     <script src="/assets/js/globe.min.js" defer></script>
     {% endif %}

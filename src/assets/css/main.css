@@ -663,3 +663,189 @@ a:focus {
     transform: scale(1.02);
     filter: drop-shadow(0 0 12px rgba(0, 255, 65, 0.4));
 }
+
+/* Mobile menu toggle button */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 201;
+  position: relative;
+}
+
+.menu-toggle:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+}
+
+.menu-icon span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.menu-toggle.active .menu-icon span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle.active .menu-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active .menu-icon span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  
+  .drawer {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .drawer.open {
+    transform: translateX(0);
+  }
+}
+
+/* Skip to content link for accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent-color);
+  color: var(--background-color);
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent-color);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Better focus indicators throughout */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Smooth scrolling for better UX */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Enhanced link hover states */
+.section-content a {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.section-content a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.section-content a:hover::after {
+  width: 100%;
+}
+
+/* Touch target sizing for mobile */
+@media (max-width: 768px) {
+  .drawer-link {
+    min-height: 44px;
+    padding: 12px 8px;
+  }
+  
+  .menu-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Error states */
+.error-message {
+  background-color: #ff3333;
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 16px 0;
+  font-family: 'courier new', monospace;
+}
+
+.error-message::before {
+  content: '! ';
+  font-weight: bold;
+}
+
+/* Success states */
+.success-message {
+  background-color: #00ff00;
+  color: #000000;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 16px 0;
+  font-family: 'courier new', monospace;
+}
+
+.success-message::before {
+  content: '✓ ';
+  font-weight: bold;
+}
